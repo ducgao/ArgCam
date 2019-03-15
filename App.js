@@ -4,10 +4,12 @@ import Main from './app/screen/main'
 import Camera from './app/screen/camera'
 
 const screensDefination = {
+  Camera: { screen:  Camera },
   Authentication: { screen:  Authentication },
-  Main: { screen:  Main },
-  Camera: { screen:  Camera }
+  Main: { screen:  Main }
 }
+
+console.disableYellowBox = true
 
 const RootStack = createStackNavigator(screensDefination)
 
