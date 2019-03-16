@@ -82,7 +82,7 @@ export default class Profile extends Component {
     return (
       <View style={styles.container}>
         {this.renderHeader()}
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollView}>
           {this.renderBlock1()}
           {this.renderBlock2()}
           {this.renderBlock3()}
@@ -139,5 +139,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 2,
     justifyContent: 'center'
+  },
+  scrollView: {
+    paddingBottom: 24
   }
 })
