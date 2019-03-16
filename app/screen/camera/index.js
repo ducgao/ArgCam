@@ -2,18 +2,21 @@ import React, { Component } from 'react'
 import { 
   StyleSheet,
   View,
-  Dimensions,
-  Text,
-  TouchableOpacity
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  ActivityIndicator
 } from 'react-native'
 import THEME from '../../res/theme'
 import Api from '../../api'
+import Icon from 'react-native-ionicons'
 import { RtmpView } from 'react-native-rtmpview'
 
 export default class Camera extends Component {
   static navigationOptions = { header: null }
 
   state = {
+    controlState: null,
+    playerState: null,
     streamUrl: null
   }
 
@@ -33,36 +36,114 @@ export default class Camera extends Component {
     })
   }
 
-  render() {
+  onCameraPlaying = () => {
+    this.setState({
+      playerState: 'playing'
+    })
+  }
+
+  requestPlay = () => {
+    if (this.player) {
+      if (this.state.playerState == null) {
+        this.setState({
+          playerState: 'loading'
+        }, () => {
+          this.player.initialize()
+          this.player.play() 
+        })  
+      }
+      else {
+        this.setState({
+          playerState: 'loading'
+        }, () => {
+          this.player.play() 
+        })  
+      }
+    }
+  }
+
+  requestPause = () => {
+    if (this.player) {
+      this.setState({
+        playerState: 'pausing'
+      }, () => {
+        this.player.pause()
+      })
+    }
+  }
+  
+  requestMute = () => {
+    if (this.player) {
+      //TODO
+    }
+  }
+
+  onControlBlockClick = () => {
+    if (this.state.playerState == 'playing') {
+      this.setState({ controlState: 'show' }, () => {
+        setTimeout(() => {
+          this.setState({ controlState: null })
+        }, 2000)
+      })
+    }
+  }
+
+  renderCamera() {
     if (this.state.streamUrl == null) {
       return null
     }
 
-    console.log("STREAM URL: " + this.state.streamUrl)
+    return <RtmpView
+      style={styles.videoPlayer}
+      shouldMute={false}
+      onFirstVideoFrameRendered={this.onCameraPlaying}
+      ref={e => this.player = e }
+      url={"rtmp://stream1.livestreamingservices.com:1935/tvmlive/tvmlive"}
+    />
+  }
+
+  renderControls() {
+    var content = null
+    if (this.state.playerState == 'playing') {
+      if (this.state.controlState == 'show') {
+        content = <TouchableOpacity activeOpacity={0.7} onPress={this.requestPause}>
+          <Icon 
+            name="md-pause" 
+            size={100} 
+            color="white"
+            style={{ alignSelf: 'center' }} 
+          />
+        </TouchableOpacity>
+      }
+    }
+
+    if (this.state.playerState == 'loading') {
+      content = <ActivityIndicator color='white' size='large' />
+    }
+
+    if (this.state.playerState == null || this.state.playerState == 'pausing') {
+      content = <TouchableOpacity activeOpacity={0.7} onPress={this.requestPlay}>
+        <Icon 
+          name="md-arrow-dropright-circle" 
+          size={100} 
+          color="white"
+          style={{ alignSelf: 'center' }} 
+        />
+      </TouchableOpacity>
+    }
+
+    return <TouchableOpacity style={styles.videoControllers} onPress={this.onControlBlockClick}>
+      <View>
+        {content}
+      </View>
+    </TouchableOpacity>
+  }
+
+  render() {
     return (
       <View style={styles.container}>
-        <RtmpView
-          style={{ 
-            width: '100%',
-            height: '50%'
-          }}
-          shouldMute={true}
-          ref={e => { this.player = e }}
-          onPlaybackState={(data) => {
-            // alert(JSON.stringify(data))
-            // this.handlePlaybackState(data);
-          }}
-          onFirstVideoFrameRendered={(data) => {
-            // alert(JSON.stringify(data))
-            // this.handleFirstVideoFrameRendered(data);
-          }}
-          url={"rtmp://camstream.vcv.vn/live/0b2fc1b6187ebafe2ff3aa2ba42e0be7?st=zD1aKGXm_AOgj8KPrq1iTA&e=1552712560072"}/>
-          <TouchableOpacity onPress={() => { 
-            this.player.initialize()
-            this.player.play() 
-          }}>
-            <Text>Play</Text>
-          </TouchableOpacity>
+        {this.renderCamera()}
+        {this.renderControls()}
       </View>
     )
   }
@@ -71,7 +152,17 @@ export default class Camera extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: THEME.appBackground,
+    backgroundColor: THEME.appBackground
+  },
+  videoPlayer: {
+    position: 'absolute',
+    width: '100%',
+    height: '50%'
+  },
+  videoControllers: {
+    position: 'absolute',
+    width: '100%',
+    height: '50%',
     justifyContent: 'center'
   }
 })
