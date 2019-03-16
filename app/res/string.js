@@ -20,4 +20,6 @@ export default string = {
   About: "About",
   Settings: "Settings",
   logout: "Logout",
+  scan_qr_code: "Scan QR-Code",
+  next: "Next"
 }

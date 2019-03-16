@@ -1,5 +1,7 @@
 const AUTHENTICATION = "Authentication"
 const MAIN = "Main"
+const LOGIN = "Login"
+const REGISTER = "Register"
 const CAMERA = "Camera"
 const ADD_CAMERA_SCAN_QR_CODE = "AddCameraScanQRCode"
 const ADD_CAMERA_CAMERA_LIST = "AddCameraCameraList"
@@ -17,6 +19,14 @@ export function replaceToMain(screenInstance) {
 
 export function navigateToMain(screenInstance) {
   screenInstance.props.navigation.navigate(MAIN)
+}
+
+export function replaceToLogin(screenInstance) {
+  screenInstance.props.navigation.replace(LOGIN)
+}
+
+export function navigateToRegister(screenInstance) {
+  screenInstance.props.navigation.navigate(REGISTER)
 }
 
 export function navigateToCamera(screenInstance, cameraInfo) {
