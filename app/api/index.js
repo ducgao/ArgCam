@@ -1,5 +1,5 @@
-import Base from "./base";
-import ENDPOINTS from "./endpoint";
+import Base from "./base"
+import ENDPOINTS from "./endpoint"
 
 export default class Api extends Base {
   static _instance = null
@@ -28,5 +28,21 @@ export default class Api extends Base {
   getCameraStreamingUrl(id) {
     const url = ENDPOINTS.CAMERA_VIEW + '/' + id
     return this.callGet(url)
+  }
+
+  getCameraListFromQRCode(code) {
+    return fakePromise(null)
+  }
+
+  getCameraServices() {
+    return fakePromise(null)
+  }
+
+  fakePromise(response) {
+    return new Promise((resolve, _) => {
+      setTimeout(() => {
+        resolve(response)
+      })
+    })
   }
 }

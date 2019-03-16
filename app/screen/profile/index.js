@@ -11,7 +11,7 @@ import THEME from '../../res/theme'
 import { isIphoneX } from '../../utils'
 import UserRepository from '../../repository/user'
 import Cell from './cell'
-import CameraRepository from '../../repository/camera';
+import CameraRepository from '../../repository/camera'
 
 export default class Profile extends Component {
   static navigationOptions = { header: null }

@@ -13,7 +13,7 @@ import CameraRepository from '../../repository/camera'
 import THEME from '../../res/theme'
 import { isIphoneX } from '../../utils'
 import Api from '../../api'
-import { navigateToCamera } from '../../common/router';
+import { navigateToCamera, navigateToAddCameraScanQRCode } from '../../common/router'
 
 export default class Home extends Component {
   static navigationOptions = { header: null }
@@ -52,6 +52,10 @@ export default class Home extends Component {
     navigateToCamera(this, item)
   }
 
+  requestAddCamera() {
+    navigateToAddCameraScanQRCode(this)
+  }
+
   renderCameraItem = ({item}) => {
     return <CameraItem 
       style={styles.cameraItem} 
@@ -61,7 +65,7 @@ export default class Home extends Component {
   }
 
   renderHeader() {
-    return <Header style={styles.header}/>
+    return <Header style={styles.header} onRequestAddCamera={this.requestAddCamera}/>
   }
 
   renderCameras() {

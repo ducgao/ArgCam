@@ -11,9 +11,9 @@ import STRING from '../../res/string'
 import THEME from '../../res/theme'
 import Input, { EMAIL, PASSWORD } from '../../ui-component/input'
 import Button from '../../ui-component/button'
-import { navigateToRegister, replaceToMain } from '../../common/router';
+import { navigateToRegister, replaceToMain } from '../../common/router'
 import Api from '../../api'
-import UserRepository from '../../repository/user';
+import UserRepository from '../../repository/user'
 
 export default class Authentication extends Component {
   static navigationOptions = { header: null }

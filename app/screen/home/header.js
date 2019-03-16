@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { 
   StyleSheet, 
   Text, 
-  View 
+  View,
+  TouchableWithoutFeedback
 } from 'react-native'
 import Ionicons from 'react-native-ionicons'
 import STRING from '../../res/string'
@@ -13,7 +14,13 @@ export default class Header extends Component {
     return (
       <View style={[styles.container, this.props.style]}>
         <Text style={styles.text}>{STRING.welcome}</Text>
-        <Ionicons style={styles.icon} name="ios-add-circle-outline" size={32} color={THEME.colorPrimary} />
+        <TouchableWithoutFeedback style={styles.icon} onPress={this.props.onRequestAddCamera}>
+          <Ionicons 
+            name="ios-add-circle-outline" 
+            size={32} 
+            color={THEME.colorPrimary}
+          />  
+        </TouchableWithoutFeedback>
       </View>
     )
   }

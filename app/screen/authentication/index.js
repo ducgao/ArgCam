@@ -1,9 +1,9 @@
 import { Component } from 'react'
 import { AsyncStorage } from 'react-native'
 import UserRepository from '../../repository/user'
-import { replaceToLogin, replaceToMain } from '../../common/router';
-import { USER_INFO_STORE_KEY, ACCESS_TOKEN_STORE_KEY, CREDENTIAL_INFO_STORE_KEY } from '../../common/constants';
-import Api from '../../api';
+import { replaceToLogin, replaceToMain } from '../../common/router'
+import { USER_INFO_STORE_KEY, ACCESS_TOKEN_STORE_KEY, CREDENTIAL_INFO_STORE_KEY } from '../../common/constants'
+import Api from '../../api'
 
 export default class Authentication extends Component {
   static navigationOptions = { header: null }
