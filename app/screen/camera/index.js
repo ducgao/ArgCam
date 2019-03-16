@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { 
   StyleSheet,
   View,
-  Text,
   Dimensions
 } from 'react-native'
 import THEME from '../../res/theme'
@@ -13,30 +12,31 @@ export default class Camera extends Component {
   static navigationOptions = { header: null }
 
   state = {
-    streamUrl: "rtmp://sentirlite.com/live/91c331806c81625b7d168abd12a91350?st=rUMhld1F6HRyMdrZwVnogA&e=1552665308794"
+    streamUrl: null
   }
 
   api = Api.instance()
 
   componentDidMount() {
-    // const cameraInfo = this.props.navigation.getParam('info')
-    // const cameraId = cameraInfo.camera_code
+    const cameraInfo = this.props.navigation.getParam('info')
+    const cameraId = cameraInfo.camera_code
 
-    // this.api.getCameraStreamingUrl(cameraId).then(res => {
-    //   this.setState({
-    //     streamUrl: res.url
-    //   })
-    // })
-    // .catch(e => {
-    //   alert(JSON.stringify(e))
-    // })
+    this.api.getCameraStreamingUrl(cameraId).then(res => {
+      this.setState({
+        streamUrl: res.url
+      })
+    })
+    .catch(e => {
+      alert(JSON.stringify(e))
+    })
   }
 
   render() {
-    // if (this.state.streamUrl == null) {
-    //   return null
-    // }
+    if (this.state.streamUrl == null) {
+      return null
+    }
 
+    alert(this.state.streamUrl)
     return (
       <View style={styles.container}>
         <RtmpView

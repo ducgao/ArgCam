@@ -4,9 +4,9 @@ import Main from './app/screen/main'
 import Camera from './app/screen/camera'
 
 const screensDefination = {
-  Camera: { screen:  Camera },
   Authentication: { screen:  Authentication },
-  Main: { screen:  Main }
+  Main: { screen:  Main },
+  Camera: { screen:  Camera }
 }
 
 console.disableYellowBox = true
