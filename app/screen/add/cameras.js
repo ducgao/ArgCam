@@ -5,6 +5,7 @@ import {
 } from 'react-native'
 
 export default class CameraList extends Component {
+  static navigationOptions = { header: null }
 
   render() {
     return <View>

@@ -5,7 +5,8 @@ import {
 } from 'react-native'
 
 export default class Payment extends Component {
-
+  static navigationOptions = { header: null }
+  
   render() {
     return <View>
       <Text>Payment</Text>

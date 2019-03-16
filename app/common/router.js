@@ -24,7 +24,7 @@ export function navigateToCamera(screenInstance, cameraInfo) {
 }
 
 export function navigateToAddCameraScanQRCode(screenInstance) {
-
+  screenInstance.props.navigation.navigate(ADD_CAMERA_SCAN_QR_CODE)
 }
 
 export function navigateToAddCameraCameraList(screenInstance) {

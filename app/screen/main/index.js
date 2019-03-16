@@ -120,6 +120,6 @@ const styles = StyleSheet.create({
   tabBar: {
     backgroundColor: null, 
     height: 56, 
-    marginBottom: isIphoneX ? 16 : 0
+    marginBottom: isIphoneX() ? 16 : 0
   }
 })

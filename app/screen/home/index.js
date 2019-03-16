@@ -52,7 +52,7 @@ export default class Home extends Component {
     navigateToCamera(this, item)
   }
 
-  requestAddCamera() {
+  requestAddCamera = () => {
     navigateToAddCameraScanQRCode(this)
   }
 
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.appBackground
   },
   header: {
-    marginTop: 44 + (isIphoneX ? 20 : 0)
+    marginTop: 44 + (isIphoneX() ? 20 : 0)
   },
   cameraList: {
     marginTop: 12,

@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 2,
     justifyContent: 'center',
-    paddingTop: isIphoneX ? 32 : 12,
+    paddingTop: isIphoneX() ? 32 : 12,
     zIndex: 99
   },
   avatar: {
