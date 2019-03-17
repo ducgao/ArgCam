@@ -15,6 +15,13 @@ export default class QRCodeScanner extends Component {
   static navigationOptions = { header: null }
 
   processing = false
+  callback = null
+
+  constructor(props) {
+    super(props)
+
+    this.callback = this.props.navigation.getParam('callback')
+  }
 
   onBarcodeDetected = ({ barcodes }) => {
     if (this.processing == true) {
@@ -29,7 +36,10 @@ export default class QRCodeScanner extends Component {
 
     const first = barcodes[0]
     const code = first.data
-    alert(JSON.stringify(code))
+    if (this.callback) {
+      this.callback(code)
+      this.props.navigation.goBack()
+    }
   }
 
   render() {

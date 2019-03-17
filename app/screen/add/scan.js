@@ -16,7 +16,13 @@ export default class ScanQRCode extends Component {
   static navigationOptions = { header: null }
 
   requestScan = () => {
-    navigateToQRCodeScanner(this)
+    navigateToQRCodeScanner(this, this.onScannCallback)
+  }
+
+  onScannCallback = (code) => {
+    setTimeout(() => {
+      alert(code)
+    }, 1000)
   }
 
   renderQRIcon() {
