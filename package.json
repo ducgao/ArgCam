@@ -11,6 +11,7 @@
     "react-native": "0.58.6",
     "react-native-gesture-handler": "^1.1.0",
     "react-native-ionicons": "^4.5.5",
+    "react-native-rtmpview": "^1.0.21",
     "react-native-tab-view": "^1.2.0",
     "react-navigation": "^3.1.5"
   },

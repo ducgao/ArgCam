@@ -32,7 +32,7 @@ export default class Home extends Component {
       this.cameraRepository.setCameraList(res.camera_list.DEFAULT)
     })
     .catch(e => {
-      Alert.alert(STRING.appName, e)
+      Alert.alert(STRING.appName, "call api error, under investigation")
     })
   }
 

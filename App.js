@@ -21,6 +21,8 @@ const screensDefination = {
   AddCameraPayment: { screen:  AddCameraPayment }
 }
 
+console.disableYellowBox = true
+
 const RootStack = createStackNavigator(screensDefination)
 
 const App = createAppContainer(RootStack)
