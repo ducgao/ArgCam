@@ -10,18 +10,25 @@ import Header from './header'
 import STRING from '../../res/string'
 import THEME from '../../res/theme'
 import Button from '../../ui-component/button'
-import { navigateToQRCodeScanner } from '../../common/router'
+import { navigateToQRCodeScanner, navigateToAddCameraCameraList } from '../../common/router'
 
 export default class ScanQRCode extends Component {
   static navigationOptions = { header: null }
 
+  state = {
+    processing: false
+  }
+
   requestScan = () => {
-    navigateToQRCodeScanner(this, this.onScannCallback)
+    if (this.state.processing == false) {
+      navigateToQRCodeScanner(this, this.onScannCallback)
+    }
   }
 
   onScannCallback = (code) => {
+    this.setState({ processing: true })
     setTimeout(() => {
-      alert(code)
+      navigateToAddCameraCameraList(this, code)
     }, 1000)
   }
 
@@ -35,18 +42,19 @@ export default class ScanQRCode extends Component {
   }
 
   renderGuide() {
-    return <Text style={styles.guideText}>{"Scan the QR Code located at your devices to intergrate with out system"}</Text>
+    return <Text style={styles.guideText}>{STRING.scanQRCodeMessage}</Text>
   }
 
   renderCTA() {
-    return <Button style={styles.cta} text={"Scan"} onPress={this.requestScan} />
+    const buttonText = this.state.processing ? STRING.processing : STRING.scan
+    return <Button style={styles.cta} text={buttonText} onPress={this.requestScan} />
   }
 
   render() {
     return <View>
       <Header 
         style={styles.header} 
-        title={STRING.scan_qr_code}
+        title={STRING.scanQRCode}
         onBack={() => this.props.navigation.goBack()}
       />
       {this.renderQRIcon()}

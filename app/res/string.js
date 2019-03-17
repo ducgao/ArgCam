@@ -20,8 +20,11 @@ export default string = {
   About: "About",
   Settings: "Settings",
   logout: "Logout",
-  scan_qr_code: "Scan QR-Code",
+  scanQRCode: "Scan QR-Code",
+  scanQRCodeMessage: "Scan the QR Code located at your devices to intergrate with out system",
   next: "Next",
   cameraMissingPermissionTitle: "Permission to use camera",
-  cameraMissingPermissionMessage: "We need your permission to use your camera phone"
+  cameraMissingPermissionMessage: "We need your permission to use your camera phone",
+  scan: "Scan",
+  processing: "Processing"
 }
