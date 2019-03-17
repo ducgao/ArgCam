@@ -21,5 +21,7 @@ export default string = {
   Settings: "Settings",
   logout: "Logout",
   scan_qr_code: "Scan QR-Code",
-  next: "Next"
+  next: "Next",
+  cameraMissingPermissionTitle: "Permission to use camera",
+  cameraMissingPermissionMessage: "We need your permission to use your camera phone"
 }
