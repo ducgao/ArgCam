@@ -11,4 +11,6 @@ pod 'yoga', path: '../node_modules/react-native/ReactCommon/yoga/yoga.podspec'
 pod 'React', path: '../node_modules/react-native'
 pod 'react-native-rtmpview', :path => '../node_modules/react-native-rtmpview'
 
+  pod 'react-native-camera', :path => '../node_modules/react-native-camera'
+
 end

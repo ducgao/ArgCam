@@ -7,6 +7,7 @@ const ADD_CAMERA_SCAN_QR_CODE = "AddCameraScanQRCode"
 const ADD_CAMERA_CAMERA_LIST = "AddCameraCameraList"
 const ADD_CAMERA_SERVICES_CHOOSER = "AddCameraServicesChooser"
 const ADD_CAMERA_PAYMENT = "AddCameraPayment"
+const QRCODE_SCANNER = "QRCodeScanner"
 
 
 export function navigateToAuthentication(screenInstance) {
@@ -31,6 +32,10 @@ export function navigateToRegister(screenInstance) {
 
 export function navigateToCamera(screenInstance, cameraInfo) {
   screenInstance.props.navigation.navigate(CAMERA, { info: cameraInfo })
+}
+
+export function navigateToQRCodeScanner(screenInstance) {
+  screenInstance.props.navigation.navigate(QRCODE_SCANNER)
 }
 
 export function navigateToAddCameraScanQRCode(screenInstance) {

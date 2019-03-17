@@ -10,9 +10,14 @@ import Header from './header'
 import STRING from '../../res/string'
 import THEME from '../../res/theme'
 import Button from '../../ui-component/button'
+import { navigateToQRCodeScanner } from '../../common/router'
 
 export default class ScanQRCode extends Component {
   static navigationOptions = { header: null }
+
+  requestScan = () => {
+    navigateToQRCodeScanner(this)
+  }
 
   renderQRIcon() {
     return <View style={styles.qrIconContainer}>
@@ -28,7 +33,7 @@ export default class ScanQRCode extends Component {
   }
 
   renderCTA() {
-    return <Button style={styles.cta} text={"Scan"} />
+    return <Button style={styles.cta} text={"Scan"} onPress={this.requestScan} />
   }
 
   render() {

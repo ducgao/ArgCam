@@ -8,6 +8,7 @@ import AddCameraScanQRCode from './app/screen/add/scan'
 import AddCameraCameraList from './app/screen/add/cameras'
 import AddCameraServicesChooser from './app/screen/add/services'
 import AddCameraPayment from './app/screen/add/payment'
+import QRCodeScanner from './app/screen/scanner/qrcode'
 
 const screensDefination = {
   Authentication: { screen:  Authentication },
@@ -18,7 +19,8 @@ const screensDefination = {
   AddCameraScanQRCode: { screen:  AddCameraScanQRCode },
   AddCameraCameraList: { screen:  AddCameraCameraList },
   AddCameraServicesChooser: { screen:  AddCameraServicesChooser },
-  AddCameraPayment: { screen:  AddCameraPayment }
+  AddCameraPayment: { screen:  AddCameraPayment },
+  QRCodeScanner: { screen: QRCodeScanner }
 }
 
 console.disableYellowBox = true

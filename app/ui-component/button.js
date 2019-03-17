@@ -15,7 +15,7 @@ export default class Button extends Component {
       paddingBottom: 12,
       borderRadius: 4,
       justifyContent: 'center'
-    }, this.props.style]} activeOpacity={0.7}>
+    }, this.props.style]} activeOpacity={0.7} onPress={this.props.onPress}>
       <Text style={{ color: 'white', alignSelf: 'center', fontSize: 14 }}>{this.props.text}</Text>
     </TouchableOpacity>
   }
