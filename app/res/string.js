@@ -26,5 +26,6 @@ export default string = {
   cameraMissingPermissionTitle: "Permission to use camera",
   cameraMissingPermissionMessage: "We need your permission to use your camera phone",
   scan: "Scan",
-  processing: "Processing"
+  processing: "Processing",
+  selectCameras: "Select Cameras",
 }
