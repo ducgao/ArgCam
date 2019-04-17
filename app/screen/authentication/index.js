@@ -14,15 +14,15 @@ export default class Authentication extends Component {
     super(props)
 
     // FAKE DATA TO ACCESS TO HOME SCREEN DIRECTLY - REMOVE WHEN RELEASE
-    UserRepository.instance().setUserInfo({
-      name: "Arg Test",
-      email: "argtest@local.com"
-    })
-    Api.instance().setAccessToken("767dbf9ea3117e28be75ad65af4d51a4") 
-    Api.instance().setUserCredentialInfo("argtest@local.com", "argtest@123")
-    replaceToMain(this) 
+    // UserRepository.instance().setUserInfo({
+    //   name: "Arg Test",
+    //   email: "argtest@local.com"
+    // })
+    // Api.instance().setAccessToken("767dbf9ea3117e28be75ad65af4d51a4") 
+    // Api.instance().setUserCredentialInfo("argtest@local.com", "argtest@123")
+    // replaceToMain(this) 
 
-    // this.syncData()
+    this.syncData()
   }
 
   syncData() {

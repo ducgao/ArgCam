@@ -13,6 +13,7 @@ const STATUS_VALID = 'valid'
 
 export const EMAIL = 'email'
 export const PASSWORD = 'password'
+export const PHONE = 'phone'
 
 export default class Input extends Component {
   constructor(props) {
@@ -114,7 +115,7 @@ export default class Input extends Component {
               paddingLeft: 8
           }}
           value={this.state.input}
-          keyboardType={this.props.keyboardType}
+          keyboardType={this.props.verifyMethod === PHONE ? 'phone-pad' : null}
           placeholder={this.props.placeholder}
           onChangeText={this.verifyInput}
           secureTextEntry={this.props.secureTextEntry}

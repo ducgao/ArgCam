@@ -85,12 +85,13 @@ export default class Authentication extends Component {
   }
 
   renderRegister() {
-    return <Text 
-      style={styles.register}
-      onPress={this.openRegisterScreen}
-    >
-      {STRING.register + ' ' + STRING.appName + '?'}
-    </Text>
+    return <TouchableWithoutFeedback style={styles.register} onPress={this.openRegisterScreen}>
+      <Text 
+        style={styles.register}
+      >
+        {STRING.register + ' ' + STRING.appName + '?'}
+      </Text>
+    </TouchableWithoutFeedback>
   }
 
   render() {
