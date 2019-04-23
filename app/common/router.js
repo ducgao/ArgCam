@@ -1,5 +1,6 @@
 const AUTHENTICATION = "Authentication"
 const MAIN = "Main"
+const LOGIN = "Login"
 const CAMERA = "Camera"
 
 export function navigateToAuthentication(screenInstance) {
@@ -16,4 +17,8 @@ export function navigateToMain(screenInstance) {
 
 export function navigateToCamera(screenInstance, cameraInfo) {
   screenInstance.props.navigation.navigate(CAMERA, { info: cameraInfo })
+}
+
+export function replaceToLogin(screenInstance) {
+  screenInstance.props.navigation.replace(LOGIN)
 }
