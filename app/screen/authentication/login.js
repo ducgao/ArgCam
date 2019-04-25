@@ -74,9 +74,9 @@ export default class Authentication extends Component {
         placeholder={STRING.password}
         verifyMethod={PASSWORD}
       />
-      <Text style={styles.forgotPassword}>
+      {/* <Text style={styles.forgotPassword}>
         {STRING.forgotPassword}
-      </Text>
+      </Text> */}
     </View>
   }
 

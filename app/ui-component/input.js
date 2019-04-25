@@ -90,7 +90,7 @@ export default class Input extends Component {
           multiline={true}
           placeholder={this.props.placeholder}
           onChangeText={this.verifyInput}
-          secureTextEntry={this.props.secureTextEntry}
+          secureTextEntry={this.props.verifyMethod === PASSWORD}
           />
           <View
           style={{
@@ -118,7 +118,7 @@ export default class Input extends Component {
           keyboardType={this.props.verifyMethod === PHONE ? 'phone-pad' : null}
           placeholder={this.props.placeholder}
           onChangeText={this.verifyInput}
-          secureTextEntry={this.props.secureTextEntry}
+          secureTextEntry={this.props.verifyMethod === PASSWORD}
           />
           <View
           style={{
