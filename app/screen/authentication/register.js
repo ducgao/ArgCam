@@ -23,7 +23,7 @@ export default class Register extends Component {
 
   api = Api.instance()
 
-  _onRequestSignUp = () => {
+  onRequestSignUp = () => {
     const name = this.nameInput.getText()
     const email = this.emailInput.getText()
     const phone = this.phoneInput.getText()
@@ -61,10 +61,10 @@ export default class Register extends Component {
       return
     }
 
-    this.setState({ loading: true }, this._doRegister.bind(this, name, email, phone, password))
+    this.setState({ loading: true }, this.doRegister.bind(this, name, email, phone, password))
   }
 
-  _doRegister = (name, email, phone, password) => {
+  doRegister = (name, email, phone, password) => {
     this.api.signUp(name, email, phone, password).then(_ => {
       this.setState({ loading: false })
       Alert.alert(
@@ -129,7 +129,7 @@ export default class Register extends Component {
     return <Button 
       style={styles.signUpButton} 
       text={STRING.signUp} 
-      onPress={this._onRequestSignUp} 
+      onPress={this.onRequestSignUp} 
       loading={this.state.loading}
     />
   }

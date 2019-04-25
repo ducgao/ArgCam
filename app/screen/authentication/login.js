@@ -18,6 +18,10 @@ import UserRepository from '../../repository/user'
 export default class Authentication extends Component {
   static navigationOptions = { header: null }
 
+  state = {
+    loading: false
+  }
+
   emailInputRef = null
   passwordInputRef = null
 
@@ -39,10 +43,16 @@ export default class Authentication extends Component {
 
     if (password == null) {
       Alert.alert(STRING.appName, STRING.passwordIncorrect)
-      return 
+      return
     }
 
+    this.setState({ loading: true }, this.doLogin.bind(this, email, password))
+  }
+
+  doLogin = (email, password) => {
     this.api.login(email, password).then(res => {
+      this.setState({ loading: false })
+
       const token = res.session_key
       if (token) {
         this.api.setAccessToken(token)
@@ -55,6 +65,7 @@ export default class Authentication extends Component {
       }
     })
     .catch(_ => {
+      this.setState({ loading: false })
       Alert.alert(STRING.appName, STRING.loginFail)
     })
   }
@@ -81,7 +92,12 @@ export default class Authentication extends Component {
   }
 
   renderLoginButton() {
-    return <Button style={styles.loginButton} text={STRING.login} onPress={this.requestLogin} />
+    return <Button 
+      style={styles.loginButton} 
+      text={STRING.login} 
+      onPress={this.requestLogin} 
+      loading={this.state.loading}
+    />
   }
 
   renderRegister() {
@@ -97,7 +113,7 @@ export default class Authentication extends Component {
   render() {
     return (
       <TouchableWithoutFeedback style={styles.container} onPress={() => Keyboard.dismiss()}>
-        <View style={styles.container}>
+        <View style={styles.container} pointerEvents={ this.state.loading ? "none" : "auto" }>
           {this.renderInputContainer()}
           {this.renderLoginButton()}
           {this.renderRegister()}

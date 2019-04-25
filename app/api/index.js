@@ -13,10 +13,10 @@ export default class Api extends Base {
 
   login(username, password) {
     const url = ENDPOINTS.LOGIN
-    const body = JSON.stringify({
+    const body = {
       email: username,
       password: password
-    })
+    }
     return this.callPost(url, body)
   }
 
