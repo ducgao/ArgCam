@@ -3,11 +3,15 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
-  TouchableWithoutFeedback,
-  ActivityIndicator
+  Text,
+  FlatList,
+  ActivityIndicator,
+  Dimensions
 } from 'react-native'
 import THEME from '../../res/theme'
+import STRING from '../../res/string'
 import Api from '../../api'
+import CameraItem from '../home/camera'
 import Icon from 'react-native-ionicons'
 import { RtmpView } from 'react-native-rtmpview'
 
@@ -89,9 +93,9 @@ export default class Camera extends Component {
   }
 
   renderCamera() {
-    if (this.state.streamUrl == null) {
-      return null
-    }
+    // if (this.state.streamUrl == null) {
+    //   return null
+    // }
 
     return <RtmpView
       style={styles.videoPlayer}
@@ -139,16 +143,55 @@ export default class Camera extends Component {
     </TouchableOpacity>
   }
 
+  renderRelatedCamera() {
+    const cameraList = [
+      {
+        camera_name: "Camera Q.1",
+        thumbnail: "https://media.architecturaldigest.com/photos/5c54be97f53444395afc2ef6/16:9/w_1280,c_limit/AD030119_KRIS_JENNER_01.jpg"
+      },
+      {
+        camera_name: "Camera Q.6",
+        thumbnail: "https://wp.zillowstatic.com/trulia/wp-content/uploads/sites/1/2016/07/kendall-jenner-west-hollywood-home-7-1-16-living-3.jpg"
+      },
+      {
+        camera_name: "Camera Q.Tan Binh",
+        thumbnail: "http://www.carlosericlopez.com/wp-content/uploads/2017/04/krisjenner_carlosericlopez_15-1612x1075.jpg"
+      }
+    ]
+    const title = <Text 
+      key="related-cameras-title"
+      style={styles.relatedCameraTitle}>{"HCMC Group"}</Text>
+    const cameras = <FlatList 
+      key="related-cameras-content"
+      style={styles.cameraList}
+      showsVerticalScrollIndicator={false}
+      keyExtractor={(_, index) => 'camera-item-' + index}
+      data={cameraList} 
+      renderItem={this.renderCameraItem}
+      />
+    return [title, cameras]
+  }
+
+  renderCameraItem = ({item}) => {
+    return <CameraItem 
+      style={styles.cameraItem} 
+      data={item}
+    />
+  }
+
   render() {
     return (
       <View style={styles.container}>
         {this.renderCamera()}
         {this.renderControls()}
+        {this.renderRelatedCamera()}
       </View>
     )
   }
 }
 
+const windowHeight = Dimensions.get('window').height
+const windowWidth = Dimensions.get('window').width
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -164,5 +207,21 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '50%',
     justifyContent: 'center'
+  },
+  relatedCameraTitle: {
+    position: 'absolute',
+    top: windowHeight / 2,
+    left: 16,
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+  cameraList: {
+    position: 'absolute',
+    top: windowHeight / 2 + 40,
+    width: windowWidth,
+    height: windowHeight / 2 - 64
+  },
+  cameraItem: {
+    marginBottom: 16
   }
 })

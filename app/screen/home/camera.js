@@ -31,7 +31,8 @@ export default class Header extends Component {
         <Image 
           style={[styles.thumbnail, { width: '100%', backgroundColor: '#d1d3d4' }]}
           source={imageSource}
-          resizeMode='contain'
+          resizeMode='cover'
+          resizeMethod='resize'
         />
       </View>
     </TouchableWithoutFeedback>
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
     paddingEnd: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.9,
     shadowRadius: 2
   },
   iconContainer: {

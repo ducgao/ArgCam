@@ -8,7 +8,7 @@ const ADD_CAMERA_CAMERA_LIST = "AddCameraCameraList"
 const ADD_CAMERA_SERVICES_CHOOSER = "AddCameraServicesChooser"
 const ADD_CAMERA_PAYMENT = "AddCameraPayment"
 const QRCODE_SCANNER = "QRCodeScanner"
-
+const CHANGE_PASSWORD = "ChangePassword"
 
 export function navigateToAuthentication(screenInstance) {
   screenInstance.props.navigation.navigate(AUTHENTICATION)
@@ -52,4 +52,8 @@ export function navigateToAddCameraServicesChooser(screenInstance) {
 
 export function navigateToAddCameraPayment(screenInstance) {
 
+}
+
+export function navigateToChangePassword(screenInstance) {
+  screenInstance.props.navigation.navigate(CHANGE_PASSWORD)
 }

@@ -41,7 +41,7 @@ export default class Base {
     }
 
     const getConfigs = { method, headers }
-    const postConfigs = body ? { ...getConfigs, body: body } : getConfigs
+    const postConfigs = body ? { ...getConfigs, body: JSON.stringify(body) } : getConfigs
     const configs = method == 'POST' ? postConfigs : getConfigs
 
     return new Promise((resolve, rejecter) => {

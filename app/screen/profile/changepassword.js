@@ -11,11 +11,11 @@ import STRING from '../../res/string'
 import THEME from '../../res/theme'
 import Input, { EMAIL, PASSWORD } from '../../ui-component/input'
 import Button from '../../ui-component/button'
-import { navigateToRegister, replaceToMain } from '../../common/router'
+import { navigateToRegister, replaceToMain } from '../../common/router';
 import Api from '../../api'
-import UserRepository from '../../repository/user'
+import UserRepository from '../../repository/user';
 
-export default class Authentication extends Component {
+export default class ChangePassword extends Component {
   static navigationOptions = { header: null }
 
   emailInputRef = null
@@ -63,35 +63,30 @@ export default class Authentication extends Component {
     return <View style={styles.inputContainer}>
       <Input
         ref={ref => this.emailInputRef = ref}
-        title={STRING.email}
-        placeholder={STRING.email}
+        title={"Old password"}
+        placeholder={"Old password"}
         verifyMethod={EMAIL}
       />
       <Input
         ref={ref => this.passwordInputRef = ref}
         style={styles.inputPassword}
-        title={STRING.password}
-        placeholder={STRING.password}
+        title={"New password"}
+        placeholder={"New password"}
         verifyMethod={PASSWORD}
       />
-      <Text style={styles.forgotPassword}>
-        {STRING.forgotPassword}
-      </Text>
     </View>
   }
 
   renderLoginButton() {
-    return <Button style={styles.loginButton} text={STRING.login} onPress={this.requestLogin} />
+    return <Button style={styles.loginButton} text={"Submit"} onPress={this.requestLogin} />
   }
 
   renderRegister() {
-    return <TouchableWithoutFeedback style={styles.register} onPress={this.openRegisterScreen}>
-      <Text 
-        style={styles.register}
-      >
-        {STRING.register + ' ' + STRING.appName + '?'}
-      </Text>
-    </TouchableWithoutFeedback>
+    return <Text 
+    style={styles.register}
+  >
+    {"Your new password required to contain both upper, lower case characters, number and special characters"}
+  </Text>
   }
 
   render() {
@@ -99,8 +94,8 @@ export default class Authentication extends Component {
       <TouchableWithoutFeedback style={styles.container} onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
           {this.renderInputContainer()}
-          {this.renderLoginButton()}
           {this.renderRegister()}
+          {this.renderLoginButton()}
         </View>
       </TouchableWithoutFeedback>
     )
@@ -134,8 +129,8 @@ const styles = StyleSheet.create({
     marginStart: 24, 
     marginEnd: 24,
     marginTop: 16,
-    textAlign: 'center',
-    color: 'gray',
-    textDecorationLine: 'underline'
+    fontSize: 12,
+    fontStyle: 'italic',
+    color: 'gray'
   }
 })

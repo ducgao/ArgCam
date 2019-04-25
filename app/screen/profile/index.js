@@ -12,6 +12,7 @@ import { isIphoneX } from '../../utils'
 import UserRepository from '../../repository/user'
 import Cell from './cell'
 import CameraRepository from '../../repository/camera'
+import { navigateToChangePassword } from '../../common/router'
 
 export default class Profile extends Component {
   static navigationOptions = { header: null }
@@ -42,6 +43,10 @@ export default class Profile extends Component {
     this.setState({ cameraCount: cameraList ? cameraList.length : 0 })
   }
 
+  onProfileManagermentPress = () => {
+    navigateToChangePassword(this)
+  }
+
   renderHeader() {
     const userInfo = this.state.userInfo
     if (userInfo == null) return
@@ -59,7 +64,7 @@ export default class Profile extends Component {
 
   renderBlock1() {
     return <View style={styles.blockContainer}>
-      <Cell title={STRING.profileManagerment} icon={"ios-contact"} color={THEME.colorPrimary}/>
+      <Cell title={STRING.profileManagerment} icon={"ios-contact"} color={THEME.colorPrimary} onPress={this.onProfileManagermentPress}/>
       <Cell title={STRING.notificationCenter} icon={"ios-mail"} color={"#f48541"}/>
     </View>
   }

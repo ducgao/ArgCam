@@ -1,7 +1,9 @@
 export default string = {
   appName: "AgrHub Camera",
   welcome: 'Welcome',
+  name: 'Name',
   email: 'Email',
+  phone: 'Phone',
   password: 'Password',
   confirmPassword: 'Confirm password',
   forgotPassword: 'Forgot password',
@@ -28,4 +30,13 @@ export default string = {
   scan: "Scan",
   processing: "Processing",
   selectCameras: "Select Cameras",
+  signUpNameError: "Your name should not be null or blank",
+  signUpEmailError: "Your email isn't correct",
+  signUpPhoneError: "Your phone number should not be null or blank",
+  signUpPasswordError: "Your password should not shorter than 6 charactors",
+  signUpRePasswordError: "Your confirm password isn't match with your password",
+  signUpAgreePolicyError: "Please check that you have agreed to our Term of Use and Privacy Policy",
+  signUpError: "We wasn't able to sign up with your information, please check the inputs and try again",
+  signUpSuccessTitle: "Confirmation email sent",
+  signUpSuccessMessage: "Please check your email and confirm your email address"
 }
