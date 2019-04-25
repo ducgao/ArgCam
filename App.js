@@ -9,8 +9,6 @@ import AddCameraCameraList from './app/screen/add/cameras'
 import AddCameraServicesChooser from './app/screen/add/services'
 import AddCameraPayment from './app/screen/add/payment'
 import QRCodeScanner from './app/screen/scanner/qrcode'
-import Login from './app/screen/authentication/login'
-import Register from './app/screen/authentication/register'
 import ChangePassword from './app/screen/profile/changepassword'
 
 const screensDefination = {
