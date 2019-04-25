@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import { AsyncStorage } from 'react-native'
 import UserRepository from '../../repository/user'
-import { replaceToLogin, replaceToMain } from '../../common/router';
+import { replaceToLogin, replaceToMain } from '../../common/router'
 import { USER_INFO_STORE_KEY, ACCESS_TOKEN_STORE_KEY, CREDENTIAL_INFO_STORE_KEY } from '../../common/constants';
 import Api from '../../api';
 
@@ -20,7 +20,7 @@ export default class Authentication extends Component {
     // })
     // Api.instance().setAccessToken("767dbf9ea3117e28be75ad65af4d51a4") 
     // Api.instance().setUserCredentialInfo("argtest@local.com", "argtest@123")
-    // replaceToMain(this) 
+    // replaceToMain(this)
 
     this.syncData()
   }
@@ -45,7 +45,7 @@ export default class Authentication extends Component {
         UserRepository.instance().setUserInfo(userInfo)
         Api.instance().setAccessToken(token) 
         Api.instance().setUserCredentialInfo(credentialInfo.email, credentialInfo.password)
-        replaceToMain(this) 
+        replaceToMain(this)
       }
       else {
         replaceToLogin(this)

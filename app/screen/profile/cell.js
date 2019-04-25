@@ -14,7 +14,7 @@ export default class Cell extends Component {
     const iconName = this.props.icon
     const title = this.props.title
     return (
-      <TouchableOpacity style={[styles.container, this.props.style]}>
+      <TouchableOpacity style={[styles.container, this.props.style]} onPress={this.props.onPress}>
         <View style={[styles.container, this.props.style]}>
           <Ionicons style={styles.icon} name={iconName} size={28} color={iconColor}/>
           <Text style={styles.title}>{title}</Text>
