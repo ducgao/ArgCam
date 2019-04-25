@@ -52,11 +52,10 @@ export default class Base {
         return Promise.all([statusCode, data])
       })
       .then(([code, data]) => {
-        if (code != 401) {
+        if (code != 401 || this.accessToken == null) {
           resolve(data)
         }
         else {
-          this.setAccessToken(null)
           this.refreshAccessToken().then(rfatRes => {
             this.setAccessToken(rfatRes.session_key)
             this.call(method, url, body)

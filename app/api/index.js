@@ -17,6 +17,7 @@ export default class Api extends Base {
       email: username,
       password: password
     }
+
     return this.callPost(url, body)
   }
 
