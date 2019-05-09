@@ -4,21 +4,33 @@ import {
   Text, 
   Image,
   View,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  TouchableOpacity
 } from 'react-native'
 import Ionicons from 'react-native-ionicons'
 
 export default class Header extends Component {
+
+  onPress = () => {
+    if (this.props.onPress) {
+      this.props.onPress(this.props.data)
+    }
+  }
+
+  onSettingPress = () => {
+    if (this.props.onSettingPress) {
+      this.props.onSettingPress(this.props.data)
+    }
+  }
 
   renderHeader() {
     const data = this.props.data
     const name = data.camera_name
     return <View style={styles.headerContainer}>
       <Text style={styles.title}>{name}</Text>
-      <View style={styles.iconContainer}>
-        <Ionicons style={styles.icon} name="ios-play-circle" size={20} color={'gray'} />
+      <TouchableOpacity style={styles.iconContainer} activeOpacity={0.7} onPress={this.props.onSettingPress}>
         <Ionicons style={styles.icon} name="ios-settings" size={20} color={'gray'} />
-      </View>
+      </TouchableOpacity>
     </View>
   }
 
@@ -26,7 +38,7 @@ export default class Header extends Component {
     const data = this.props.data
     const thumbnail = data.thumbnail
     const imageSource = thumbnail ? { uri: thumbnail } : require('../../res/images/camera-default-thumb.png')
-    return <TouchableWithoutFeedback style={styles.thumbnail} onPress={this.props.onPress}>
+    return <TouchableWithoutFeedback style={styles.thumbnail} onPress={this.onPress}>
       <View style={styles.thumbnail}>
         <Image 
           style={[styles.thumbnail, { width: '100%', backgroundColor: '#d1d3d4' }]}

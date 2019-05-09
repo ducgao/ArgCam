@@ -63,8 +63,12 @@ export default class Home extends Component {
     this.setState({ cameraList: cameras })
   }
 
-  requestOpenCamera(item) {
+  requestOpenCamera = (item) => {
     navigateToCamera(this, item)
+  }
+
+  requestOpenCameraSetting = (item) => {
+    //TODO
   }
 
   requestAddCamera = () => {
@@ -75,7 +79,8 @@ export default class Home extends Component {
     return <CameraItem 
       style={styles.cameraItem} 
       data={item}
-      onPress={() => this.requestOpenCamera(item)}
+      onPress={this.requestOpenCamera}
+      onSettingPress={this.requestOpenCameraSetting}
     />
   }
 
