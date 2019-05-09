@@ -77,7 +77,7 @@ export default class Main extends Component {
 
   renderTabBar = (props) => {
     return [
-      <View key="separator" style={{ height: 1, backgroundColor: theme.tabBarSeparator }}/>,
+      <View key="separator" style={{ height: 0.5, backgroundColor: theme.tabBarSeparator }}/>,
       <TabBar
         key="tabbar"
         {...props}
