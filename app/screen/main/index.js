@@ -12,6 +12,7 @@ import Home from '../home'
 import Cloud from '../cloud'
 import Profile from '../profile'
 import { isIphoneX } from '../../utils'
+import theme from '../../res/theme';
 
 export default class Main extends Component {
   static navigationOptions = { header: null }
@@ -75,12 +76,16 @@ export default class Main extends Component {
   }
 
   renderTabBar = (props) => {
-    return <TabBar
-      {...props}
-      style={styles.tabBar}
-      indicatorStyle={{ backgroundColor: null }}
-      renderLabel={this.renderLabel}
-    />
+    return [
+      <View key="separator" style={{ height: 1, backgroundColor: theme.tabBarSeparator }}/>,
+      <TabBar
+        key="tabbar"
+        {...props}
+        style={styles.tabBar}
+        indicatorStyle={{ backgroundColor: null }}
+        renderLabel={this.renderLabel}
+      />
+    ]
   }
 
   render() {

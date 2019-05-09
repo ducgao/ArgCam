@@ -28,20 +28,22 @@ export default class Authentication extends Component {
   syncData() {
     const keys = [
       ACCESS_TOKEN_STORE_KEY,
-      CREDENTIAL_INFO_STORE_KEY
-    ] 
+      CREDENTIAL_INFO_STORE_KEY,
+      USER_INFO_STORE_KEY
+    ]
     AsyncStorage.multiGet(keys).then(res => {
-      if (res.length < 2) {
-        replaceToLogin(this)
-        return
-      }
-
       const token = res[0][1]
       const credentialInfo = JSON.parse(res[1][1])
+      const userInfo = JSON.parse(res[2][1])
 
-      Api.instance().setAccessToken(token) 
-      Api.instance().setUserCredentialInfo(credentialInfo.email, credentialInfo.password)
-      replaceToMain(this)
+      if (token && credentialInfo && userInfo) {
+        UserRepository.instance().setUserInfo(userInfo)
+        Api.instance().setAccessToken(token)
+        Api.instance().setUserCredentialInfo(credentialInfo.email, credentialInfo.password)
+        replaceToMain(this)
+      } else {
+        replaceToLogin(this)
+      }
     })
     .catch(_ => {
       replaceToLogin(this)
