@@ -3,17 +3,17 @@ import {
   StyleSheet,
   View,
   FlatList,
-  ActivityIndicator,
-  Alert
+  ActivityIndicator
 } from 'react-native'
+import { navigateToCamera, navigateToAddCameraScanQRCode } from '../../common/router'
+import { isIphoneX } from '../../utils'
 import STRING from '../../res/string'
 import Header from './header'
 import CameraItem from './camera'
 import CameraRepository from '../../repository/camera'
 import THEME from '../../res/theme'
-import { isIphoneX } from '../../utils'
 import Api from '../../api'
-import { navigateToCamera, navigateToAddCameraScanQRCode } from '../../common/router'
+import Popup from './popup';
 
 export default class Home extends Component {
   static navigationOptions = { header: null }
@@ -22,33 +22,19 @@ export default class Home extends Component {
   cameraRepository = CameraRepository.instance()
 
   state = {
-    cameraList: null
+    cameraList: null,
+    dialogVisible: false
   }
 
   constructor(props) {
     super(props)
 
-    this.cameraRepository.setCameraList([
-      {
-        camera_name: "Camera Q.1",
-        thumbnail: "https://media.architecturaldigest.com/photos/5c54be97f53444395afc2ef6/16:9/w_1280,c_limit/AD030119_KRIS_JENNER_01.jpg"
-      },
-      {
-        camera_name: "Camera Q.6",
-        thumbnail: "https://wp.zillowstatic.com/trulia/wp-content/uploads/sites/1/2016/07/kendall-jenner-west-hollywood-home-7-1-16-living-3.jpg"
-      },
-      {
-        camera_name: "Camera Q.Tan Binh",
-        thumbnail: "http://www.carlosericlopez.com/wp-content/uploads/2017/04/krisjenner_carlosericlopez_15-1612x1075.jpg"
-      }
-    ])
-
-    // this.api.getCameraList().then(res => {
-    //   this.cameraRepository.setCameraList(res.camera_list.DEFAULT)
-    // })
-    // .catch(e => {
-    //   Alert.alert(STRING.appName, "call api error, under investigation")
-    // })
+    this.api.getCameraList().then(res => {
+      this.cameraRepository.setCameraList(res)
+    })
+    .catch(e => {
+      Alert.alert(STRING.appName, "call api error, under investigation")
+    })
   }
 
   componentDidMount() {
@@ -68,7 +54,7 @@ export default class Home extends Component {
   }
 
   requestOpenCameraSetting = (item) => {
-    //TODO
+    this.setState({ dialogVisible: true })
   }
 
   requestAddCamera = () => {
@@ -109,11 +95,19 @@ export default class Home extends Component {
     }
   }
 
+  renderPopup() {
+    return <Popup
+      dialogVisible={this.state.dialogVisible}
+      onRequestClose={() => { this.setState({ dialogVisible: false }) }}
+    />
+  }
+
   render() {
     return (
       <View style={styles.container}>
         {this.renderHeader()}
         {this.renderCameras()}
+        {this.renderPopup()}
       </View>
     )
   }

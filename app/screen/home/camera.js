@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import Ionicons from 'react-native-ionicons'
 
-export default class Header extends Component {
+export default class Camera extends Component {
 
   onPress = () => {
     if (this.props.onPress) {
