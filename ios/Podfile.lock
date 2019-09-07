@@ -18,6 +18,14 @@ PODS:
   - PureLayout (3.1.4)
   - React (0.58.6):
     - React/Core (= 0.58.6)
+  - react-native-camera (3.3.3):
+    - React
+    - react-native-camera/RCT (= 3.3.3)
+    - react-native-camera/RN (= 3.3.3)
+  - react-native-camera/RCT (3.3.3):
+    - React
+  - react-native-camera/RN (3.3.3):
+    - React
   - react-native-rtmpview (1.0.21):
     - libksygpulive/KSYGPUResource
     - libksygpulive/libksygpulive
@@ -29,6 +37,7 @@ PODS:
 
 DEPENDENCIES:
   - React (from `../node_modules/react-native`)
+  - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-rtmpview (from `../node_modules/react-native-rtmpview`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga/yoga.podspec`)
 
@@ -41,6 +50,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   React:
     :path: "../node_modules/react-native"
+  react-native-camera:
+    :path: "../node_modules/react-native-camera"
   react-native-rtmpview:
     :path: "../node_modules/react-native-rtmpview"
   yoga:
@@ -50,10 +61,11 @@ SPEC CHECKSUMS:
   GPUImage: 733a5f0fab92df9de1c37ba9df520a833ccb406d
   libksygpulive: aca3eb30e7a38ee6565feb52feb82ccc0103ce43
   PureLayout: f08c01b8dec00bb14a1fefa3de4c7d9c265df85e
-  React: 16c4fb7ce3fc30c041bce809ceae33bf57e7c142
-  react-native-rtmpview: 2819e617700e0541c355c70bfe526a6b9e1a17de
-  yoga: 0885622311729a02c2bc02dca97167787a51488b
+  React: 130b87b2d5e2baac646954282cab87be986d98fc
+  react-native-camera: 941db9425e984fe31743e78e381a1498dbb92f5f
+  react-native-rtmpview: 2e767d0d282e46ebd88063453968de7369369009
+  yoga: 32d7ef1081951e9a35a4c72a7be797598b138a48
 
-PODFILE CHECKSUM: 15a16ea1757d6647789b6a0a27b8661b1283a60b
+PODFILE CHECKSUM: 3d18742201ebaa7474f3af069f31c64f8030d77c
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.7.5

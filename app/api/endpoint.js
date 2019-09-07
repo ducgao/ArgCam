@@ -1,7 +1,6 @@
-const BASE_URL = "https://api-dot-cloudcam-233910.appspot.com/"
+const BASE_URL = "http://camhub.ai/"
 export default ENDPOINTS = {
-  LOGIN: BASE_URL + "api/auth/login",
-  SIGN_UP: BASE_URL + "api/auth/sign-up",
+  LOGIN: BASE_URL + "api-rest-oauth/oauth/token?grant_type=client_credentials",
   CAMERA_LIST: BASE_URL + "camera/list",
   CAMERA_VIEW: BASE_URL + "camera/view"
 }

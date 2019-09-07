@@ -57,6 +57,7 @@ export default class Authentication extends Component {
       if (token) {
         this.api.setAccessToken(token)
         this.api.setUserCredentialInfo(email, password)
+        this.userRepository.setUserInfo(res)
         replaceToMain(this)
       }
       else {

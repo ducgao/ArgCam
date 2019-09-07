@@ -13,15 +13,6 @@ export default class Authentication extends Component {
   constructor(props) {
     super(props)
 
-    // FAKE DATA TO ACCESS TO HOME SCREEN DIRECTLY - REMOVE WHEN RELEASE
-    // UserRepository.instance().setUserInfo({
-    //   name: "Arg Test",
-    //   email: "argtest@local.com"
-    // })
-    // Api.instance().setAccessToken("767dbf9ea3117e28be75ad65af4d51a4") 
-    // Api.instance().setUserCredentialInfo("argtest@local.com", "argtest@123")
-    // replaceToMain(this)
-
     this.syncData()
   }
 
@@ -32,6 +23,7 @@ export default class Authentication extends Component {
       USER_INFO_STORE_KEY
     ]
     AsyncStorage.multiGet(keys).then(res => {
+      console.warn(res);
       const token = res[0][1]
       const credentialInfo = JSON.parse(res[1][1])
       const userInfo = JSON.parse(res[2][1])

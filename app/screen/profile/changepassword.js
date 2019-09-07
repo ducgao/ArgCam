@@ -47,7 +47,7 @@ export default class ChangePassword extends Component {
       if (token) {
         this.api.setAccessToken(token)
         this.api.setUserCredentialInfo(email, password)
-        UserRepository.instance().setUserInfo(res.user)
+        UserRepository.instance().setUserInfo(res)
         replaceToMain(this)
       }
       else {

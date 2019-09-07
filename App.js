@@ -25,7 +25,7 @@ const screensDefination = {
   ChangePassword: { screen: ChangePassword }
 }
 
-console.disableYellowBox = true
+// console.disableYellowBox = true
 
 const RootStack = createStackNavigator(screensDefination)
 

@@ -11,16 +11,6 @@ export default class Api extends Base {
       return this._instance
   }
 
-  login(username, password) {
-    const url = ENDPOINTS.LOGIN
-    const body = {
-      email: username,
-      password: password
-    }
-
-    return this.callPost(url, body)
-  }
-
   signUp(name, email, phone, password) {
     const url = ENDPOINTS.SIGN_UP
     const body = {

@@ -1,4 +1,7 @@
 import { AsyncStorage } from 'react-native'
+import md5 from 'js-md5'
+import { Base64 } from 'js-base64'
+
 import ENDPOINTS from './endpoint'
 import { ACCESS_TOKEN_STORE_KEY, CREDENTIAL_INFO_STORE_KEY } from '../common/constants'
 export default class Base {
@@ -81,5 +84,40 @@ export default class Base {
     })
 
     return this.callPost(url, body)
+  }
+
+  login(email, password) {
+    const step1 = md5(password)
+    const step2 = Base64.encode(`${email}:${step1}`)
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'Company': 'demo',
+      'Authorization': `Basic ${step2}`
+    }
+
+    console.warn(headers);
+    
+
+    return new Promise((resolve, rejecter) => {
+      fetch(ENDPOINTS.LOGIN, { method: 'POST', headers })
+      .then(response => {
+        const statusCode = response.status
+        const data = response.json()
+        return Promise.all([statusCode, data])
+      })
+      .then(([code, data]) => {
+        console.warn(data);
+        if (code === 200) {
+          resolve(data)
+        }
+        else {
+          rejecter(code)
+        }
+      })
+      .catch(e => {
+        rejecter(e)
+      })
+    })
   }
 }
