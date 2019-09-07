@@ -22,6 +22,16 @@ export default class Api extends Base {
     return this.callPost(url, body)
   }
 
+  getFolder() {
+    const body = {
+      type: 0,
+      limit: -1,
+      offet: 0
+    }
+
+    return this.callPost(ENDPOINTS.GET_FOLDER, body)
+  }
+
   getCameraList() {
     const url = ENDPOINTS.CAMERA_LIST
     return this.callGet(url)

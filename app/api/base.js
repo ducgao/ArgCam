@@ -36,38 +36,31 @@ export default class Base {
   }
 
   call(method, url, body) {
-    const headers = this.accessToken == null ? {
-      'Content-Type': 'application/json'
-    } : {
+    const headers = {
       'Content-Type': 'application/json',
-      'X-Tokens': this.accessToken,
+      'Company': 'demo',
     }
 
     const getConfigs = { method, headers }
     const postConfigs = body ? { ...getConfigs, body: JSON.stringify(body) } : getConfigs
     const configs = method == 'POST' ? postConfigs : getConfigs
 
+    const callingUrl = url.replace("{access_token}", this.accessToken)
+
     return new Promise((resolve, rejecter) => {
-      fetch(url, configs)
+      fetch(callingUrl, configs)
       .then(response => {
         const statusCode = response.status
         const data = response.json()
         return Promise.all([statusCode, data])
       })
       .then(([code, data]) => {
-        if (code != 401 || this.accessToken == null) {
+        console.warn(data);
+        if (code === 200) {
           resolve(data)
         }
         else {
-          this.refreshAccessToken().then(rfatRes => {
-            this.setAccessToken(rfatRes.session_key)
-            this.call(method, url, body)
-            .then(res => resolve(res))
-            .catch(e => rejecter(e))  
-          })
-          .catch(e => {
-            rejecter(e)
-          })
+          rejecter(code)
         }
       })
       .catch(e => {

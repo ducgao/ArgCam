@@ -5,7 +5,8 @@ import {
   Image,
   View,
   TouchableWithoutFeedback,
-  TouchableOpacity
+  TouchableOpacity,
+  Dimensions
 } from 'react-native'
 import Ionicons from 'react-native-ionicons'
 
@@ -25,12 +26,12 @@ export default class Header extends Component {
 
   renderHeader() {
     const data = this.props.data
-    const name = data.camera_name
+    const name = data.name
     return <View style={styles.headerContainer}>
-      <Text style={styles.title}>{name}</Text>
-      <TouchableOpacity style={styles.iconContainer} activeOpacity={0.7} onPress={this.props.onSettingPress}>
+      <Text style={styles.title} numberOfLines={1} ellipsizeMode={'middle'} >{name}</Text>
+      {/* <TouchableOpacity style={styles.iconContainer} activeOpacity={0.7} onPress={this.props.onSettingPress}>
         <Ionicons style={styles.icon} name="ios-settings" size={20} color={'gray'} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   }
 
@@ -41,7 +42,7 @@ export default class Header extends Component {
     return <TouchableWithoutFeedback style={styles.thumbnail} onPress={this.onPress}>
       <View style={styles.thumbnail}>
         <Image 
-          style={[styles.thumbnail, { width: '100%', backgroundColor: '#d1d3d4' }]}
+          style={[styles.thumbnail]}
           source={imageSource}
           resizeMode='cover'
           resizeMethod='resize'
@@ -60,13 +61,21 @@ export default class Header extends Component {
   }
 }
 
+const ITEM_WIDTH = Dimensions.get('window').width / 2 - 24
+
 const styles = StyleSheet.create({
   container: {
-    paddingStart: 16,
-    paddingEnd: 16,
+    width: ITEM_WIDTH,
+    height: ITEM_WIDTH,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    marginVertical: 8,
+    marginHorizontal: 8,
+    borderRadius: 4,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.9,
+    shadowOpacity: 0.2,
     shadowRadius: 2
   },
   iconContainer: {
@@ -79,24 +88,25 @@ const styles = StyleSheet.create({
     marginStart: 12
   },
   thumbnail: {
-    flex: 1,
-    height: 160,
+    width: ITEM_WIDTH,
+    height: ITEM_WIDTH - 20,
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    backgroundColor: '#d1d3d4'
   },
   headerContainer: {
     flexDirection: 'row', 
     backgroundColor: 'white', 
+    justifyContent: 'center',
     borderTopLeftRadius: 8, 
     borderTopRightRadius: 8,
-    paddingStart: 16,
-    paddingEnd: 16, 
-    paddingTop: 8, 
-    paddingBottom: 8
+    paddingStart: 8,
+    paddingEnd: 8, 
+    paddingTop: 8
   },
   title: {
-    fontSize: 20, 
-    fontWeight: '500'
+    flex: 1,
+    height: 20
   }
 })

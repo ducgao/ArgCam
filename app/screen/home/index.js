@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { 
   StyleSheet,
   View,
+  Text,
   FlatList,
   ActivityIndicator,
   Alert
@@ -9,46 +10,60 @@ import {
 import STRING from '../../res/string'
 import Header from './header'
 import CameraItem from './camera'
+import FolderItem from './folder'
 import CameraRepository from '../../repository/camera'
 import THEME from '../../res/theme'
 import { isIphoneX } from '../../utils'
 import Api from '../../api'
 import { navigateToCamera, navigateToAddCameraScanQRCode } from '../../common/router'
 
+const PRESENT_ITEM_TYPE = {
+  FOLDER: 1,
+  FILE: 2,
+  CAMERA: 3
+}
+
 export default class Home extends Component {
   static navigationOptions = { header: null }
+
+  stackFolder = []
 
   api = Api.instance()
   cameraRepository = CameraRepository.instance()
 
   state = {
-    cameraList: null
+    presentList: [],
+    showBack: false,
+    headerTitle: STRING.welcome
   }
 
   constructor(props) {
     super(props)
 
-    this.cameraRepository.setCameraList([
-      {
-        camera_name: "Camera Q.1",
-        thumbnail: "https://media.architecturaldigest.com/photos/5c54be97f53444395afc2ef6/16:9/w_1280,c_limit/AD030119_KRIS_JENNER_01.jpg"
-      },
-      {
-        camera_name: "Camera Q.6",
-        thumbnail: "https://wp.zillowstatic.com/trulia/wp-content/uploads/sites/1/2016/07/kendall-jenner-west-hollywood-home-7-1-16-living-3.jpg"
-      },
-      {
-        camera_name: "Camera Q.Tan Binh",
-        thumbnail: "http://www.carlosericlopez.com/wp-content/uploads/2017/04/krisjenner_carlosericlopez_15-1612x1075.jpg"
-      }
-    ])
+    this.api.getFolder().then(res => {
+      const presentList = res.elements.map(e => {
+        let type = PRESENT_ITEM_TYPE.FOLDER
 
-    // this.api.getCameraList().then(res => {
-    //   this.cameraRepository.setCameraList(res.camera_list.DEFAULT)
-    // })
-    // .catch(e => {
-    //   Alert.alert(STRING.appName, "call api error, under investigation")
-    // })
+        if (e.camera === true) {
+          type = PRESENT_ITEM_TYPE.CAMERA
+        }
+        else if (e.file === true) {
+          type = PRESENT_ITEM_TYPE.FILE
+        }
+
+        const content = this.parseContent(e.files)
+
+        return {
+          id: e.id,
+          name: e.name,
+          type,
+          content
+        }
+      })
+
+      this.setState({ presentList })
+      this.stackFolder.push(presentList)
+    })
   }
 
   componentDidMount() {
@@ -75,7 +90,66 @@ export default class Home extends Component {
     navigateToAddCameraScanQRCode(this)
   }
 
+  requestBack = () => {
+    this.stackFolder.pop()
+    const item = this.stackFolder[this.stackFolder.length - 1]
+
+    if (Array.isArray(item)) {
+      this.setState({ 
+        presentList: item, 
+        headerTitle: STRING.welcome,
+        showBack: false
+      })  
+    }
+    else {
+      this.setState({ 
+        presentList: item.content, 
+        headerTitle: item.name,
+        showBack: true 
+      })
+    }
+  }
+
+  parseContent = (files) => {
+    if (Array.isArray(files)) {
+      return files.map(e => {
+        let type = PRESENT_ITEM_TYPE.FOLDER
+
+        if (e.camera === true) {
+          type = PRESENT_ITEM_TYPE.CAMERA
+        }
+        else if (e.file === true) {
+          type = PRESENT_ITEM_TYPE.FILE
+        }
+
+        const content = this.parseContent(e.files)
+
+        return {
+          id: e.id,
+          name: e.name,
+          type,
+          content
+        }
+      })
+    }
+
+    return null;
+  }
+
+  onItemPress = (item) => {
+    this.setState({ 
+      presentList: item.content, 
+      headerTitle: item.name,
+      showBack: true 
+    })
+    this.stackFolder.push(item)
+  } 
+
   renderCameraItem = ({item}) => {
+    if (item.type === PRESENT_ITEM_TYPE.FOLDER) {
+      return <FolderItem data={item} onPress={this.onItemPress}/>
+    }
+
     return <CameraItem 
       style={styles.cameraItem} 
       data={item}
@@ -85,11 +159,19 @@ export default class Home extends Component {
   }
 
   renderHeader() {
-    return <Header style={styles.header} onRequestAddCamera={this.requestAddCamera}/>
+    return (
+      <Header 
+        style={styles.header} 
+        onRequestAddCamera={this.requestAddCamera}
+        onRequestBack={this.requestBack}
+        headerTitle={this.state.headerTitle}
+        showBack={this.state.showBack}
+      />
+    )
   }
 
   renderCameras() {
-    if (this.state.cameraList == null) {
+    if (this.state.presentList == null) {
       return <ActivityIndicator style={{
         position: 'absolute',
         left: 0,
@@ -103,8 +185,9 @@ export default class Home extends Component {
         style={styles.cameraList}
         showsVerticalScrollIndicator={false}
         keyExtractor={(_, index) => 'camera-item-' + index}
-        data={this.state.cameraList} 
+        data={this.state.presentList} 
         renderItem={this.renderCameraItem}
+        numColumns={2}
       />
     }
   }
@@ -128,6 +211,7 @@ const styles = StyleSheet.create({
     marginTop: 44 + (isIphoneX() ? 20 : 0)
   },
   cameraList: {
+    marginHorizontal: 8,
     marginTop: 12,
     paddingTop: 8
   },

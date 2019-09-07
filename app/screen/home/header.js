@@ -13,8 +13,19 @@ export default class Header extends Component {
   render() {
     return (
       <View style={[styles.container, this.props.style]}>
-        <Text style={styles.text}>{STRING.welcome}</Text>
-        <TouchableOpacity activeOpacity={0.7} style={styles.icon} onPress={this.props.onRequestAddCamera}>
+        {
+          this.props.showBack === false ? null : (
+            <TouchableOpacity activeOpacity={0.7} style={{ marginRight: 12 }} onPress={this.props.onRequestBack} hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}>
+              <Ionicons 
+                name="ios-arrow-back" 
+                size={32} 
+                color={THEME.colorPrimary}
+              />  
+            </TouchableOpacity>
+          )
+        }
+        <Text style={styles.text}>{this.props.headerTitle}</Text>
+        <TouchableOpacity activeOpacity={0.7} style={styles.icon} onPress={this.props.onRequestAddCamera} hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}>
           <Ionicons 
             name="ios-add-circle-outline" 
             size={32} 
