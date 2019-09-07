@@ -32,7 +32,7 @@ export default class Home extends Component {
   cameraRepository = CameraRepository.instance()
 
   state = {
-    presentList: [],
+    presentList: null,
     showBack: false,
     headerTitle: STRING.welcome
   }
@@ -134,7 +134,7 @@ export default class Home extends Component {
       })
     }
 
-    return null;
+    return [];
   }
 
   onItemPress = (item) => {
