@@ -16,8 +16,6 @@ import Icon from 'react-native-ionicons'
 import { RtmpView } from 'react-native-rtmpview'
 
 export default class Camera extends Component {
-  static navigationOptions = { header: null }
-
   state = {
     controlState: null,
     playerState: null,
@@ -28,19 +26,22 @@ export default class Camera extends Component {
 
   componentDidMount() {
     const cameraInfo = this.props.navigation.getParam('info')
-    const cameraId = cameraInfo.camera_code
+    this.setState({
+      streamUrl: cameraInfo.url
+    }, this.requestPlay)
+    // const cameraId = cameraInfo.camera_code
 
-    this.api.getCameraStreamingUrl(cameraId).then(res => {
-      this.setState({
-        streamUrl: res.url
-      })
-    })
-    .catch(e => {
-      alert(JSON.stringify(e))
-    })
+    // this.api.getCameraStreamingUrl(cameraId).then(res => {
+    //   this.setState({
+    //     streamUrl: res.url
+    //   })
+    // })
+    // .catch(e => {
+    //   alert(JSON.stringify(e))
+    // })
   }
 
-  onCameraPlaying = () => {
+  onCameraPlaying = (data) => {
     this.setState({
       playerState: 'playing'
     })
@@ -93,16 +94,17 @@ export default class Camera extends Component {
   }
 
   renderCamera() {
-    // if (this.state.streamUrl == null) {
-    //   return null
-    // }
+    if (this.state.streamUrl == null) {
+      return null
+    }
 
     return <RtmpView
       style={styles.videoPlayer}
       shouldMute={false}
+      scalingMode={'MovieScalingModeAspectFit'}
       onFirstVideoFrameRendered={this.onCameraPlaying}
       ref={e => this.player = e }
-      url={"rtmp://stream1.livestreamingservices.com:1935/tvmlive/tvmlive"}
+      url={this.state.streamUrl}
     />
   }
 
@@ -143,35 +145,6 @@ export default class Camera extends Component {
     </TouchableOpacity>
   }
 
-  renderRelatedCamera() {
-    const cameraList = [
-      {
-        camera_name: "Camera Q.1",
-        thumbnail: "https://media.architecturaldigest.com/photos/5c54be97f53444395afc2ef6/16:9/w_1280,c_limit/AD030119_KRIS_JENNER_01.jpg"
-      },
-      {
-        camera_name: "Camera Q.6",
-        thumbnail: "https://wp.zillowstatic.com/trulia/wp-content/uploads/sites/1/2016/07/kendall-jenner-west-hollywood-home-7-1-16-living-3.jpg"
-      },
-      {
-        camera_name: "Camera Q.Tan Binh",
-        thumbnail: "http://www.carlosericlopez.com/wp-content/uploads/2017/04/krisjenner_carlosericlopez_15-1612x1075.jpg"
-      }
-    ]
-    const title = <Text 
-      key="related-cameras-title"
-      style={styles.relatedCameraTitle}>{"HCMC Group"}</Text>
-    const cameras = <FlatList 
-      key="related-cameras-content"
-      style={styles.cameraList}
-      showsVerticalScrollIndicator={false}
-      keyExtractor={(_, index) => 'camera-item-' + index}
-      data={cameraList} 
-      renderItem={this.renderCameraItem}
-      />
-    return [title, cameras]
-  }
-
   renderCameraItem = ({item}) => {
     return <CameraItem 
       style={styles.cameraItem} 
@@ -184,7 +157,6 @@ export default class Camera extends Component {
       <View style={styles.container}>
         {this.renderCamera()}
         {this.renderControls()}
-        {this.renderRelatedCamera()}
       </View>
     )
   }

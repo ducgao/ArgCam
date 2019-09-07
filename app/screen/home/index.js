@@ -128,7 +128,8 @@ export default class Home extends Component {
           id: e.id,
           name: e.name,
           type,
-          content
+          content,
+          url: type != PRESENT_ITEM_TYPE.FOLDER ? e.cameraStreamUrl : undefined
         }
       })
     }
@@ -154,7 +155,6 @@ export default class Home extends Component {
       style={styles.cameraItem} 
       data={item}
       onPress={this.requestOpenCamera}
-      onSettingPress={this.requestOpenCameraSetting}
     />
   }
 
