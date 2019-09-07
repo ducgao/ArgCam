@@ -29,16 +29,6 @@ export default class Camera extends Component {
     this.setState({
       streamUrl: cameraInfo.url
     }, this.requestPlay)
-    // const cameraId = cameraInfo.camera_code
-
-    // this.api.getCameraStreamingUrl(cameraId).then(res => {
-    //   this.setState({
-    //     streamUrl: res.url
-    //   })
-    // })
-    // .catch(e => {
-    //   alert(JSON.stringify(e))
-    // })
   }
 
   onCameraPlaying = (data) => {
