@@ -91,9 +91,6 @@ export default class Profile extends Component {
     const userInfo = this.state.userInfo
     if (userInfo == null) return
 
-    // const ccount = this.state.cameraCount
-    // const name = userInfo.name
-    // const cameraCount = ccount + ' ' + (ccount > 1 ? STRING.cameras : STRING.camera)
     const avatarSource = userInfo.avatar ? { uri: userInfo.avatar } : require('../../res/images/avatar-default.png')
     return <View style={styles.headerContainer}>
       <Image style={styles.avatar} source={avatarSource} />
@@ -145,13 +142,13 @@ const styles = StyleSheet.create({
   headerContainer: {
     width: '100%', 
     backgroundColor: THEME.colorPrimary,
-    height: 220,
+    height: 200,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 2,
     justifyContent: 'center',
-    paddingTop: isIphoneX() ? 32 : 12,
+    paddingTop: isIphoneX() ? 42 : 22,
     zIndex: 99
   },
   avatar: {
@@ -165,7 +162,7 @@ const styles = StyleSheet.create({
     color: 'white', 
     alignSelf: 'center', 
     fontSize: 16, 
-    marginTop: 8
+    marginTop: 12
   },
   cameraCount: {
     color: '#FFFFFF80', 
