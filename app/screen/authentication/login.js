@@ -29,7 +29,7 @@ export default class Authentication extends Component {
   userRepository = UserRepository.instance()
 
   openRegisterScreen = () => {
-    navigateToRegister(this)
+    Alert.alert(STRING.notice, STRING.featuresNotAvailable)
   }
 
   requestLogin = () => {

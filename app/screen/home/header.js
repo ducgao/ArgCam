@@ -25,13 +25,13 @@ export default class Header extends Component {
           )
         }
         <Text style={styles.text}>{this.props.headerTitle}</Text>
-        <TouchableOpacity activeOpacity={0.7} style={styles.icon} onPress={this.props.onRequestAddCamera} hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}>
+        {/* <TouchableOpacity activeOpacity={0.7} style={styles.icon} onPress={this.props.onRequestAddCamera} hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}>
           <Ionicons 
             name="ios-add-circle-outline" 
             size={32} 
             color={THEME.colorPrimary}
           />  
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     )
   }

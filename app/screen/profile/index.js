@@ -4,7 +4,9 @@ import {
   ScrollView,
   View,
   Image,
-  Text
+  Text,
+  Alert,
+  AsyncStorage
 } from 'react-native'
 import STRING from '../../res/string'
 import THEME from '../../res/theme'
@@ -13,6 +15,8 @@ import UserRepository from '../../repository/user'
 import Cell from './cell'
 import CameraRepository from '../../repository/camera'
 import { navigateToChangePassword } from '../../common/router'
+import { ACCESS_TOKEN_STORE_KEY, CREDENTIAL_INFO_STORE_KEY, USER_INFO_STORE_KEY } from '../../common/constants'
+import { StackActions, NavigationActions } from 'react-navigation'
 
 export default class Profile extends Component {
   static navigationOptions = { header: null }
@@ -35,6 +39,30 @@ export default class Profile extends Component {
     this.cameraRepository.removeObserver(this.cameraObserver)
   }
 
+  onRequestLogout = () => {
+    Alert.alert(STRING.logout, STRING.logoutConfirm, [
+      {
+        text: "Yes",
+        style: 'default',
+        onPress: this.doLogout
+      },
+      {
+        text: "Cancel",
+        style: 'cancel'
+      }
+    ])
+  }
+
+  doLogout = () => {
+    AsyncStorage.multiRemove([ACCESS_TOKEN_STORE_KEY, CREDENTIAL_INFO_STORE_KEY, USER_INFO_STORE_KEY], () => {
+      const resetAction = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: 'Authentication' })],
+      });
+      this.props.navigation.dispatch(resetAction);
+    })
+  }
+
   userObserver = (userInfo) => {
     this.setState({ userInfo })
   }
@@ -44,42 +72,54 @@ export default class Profile extends Component {
   }
 
   onProfileManagermentPress = () => {
-    navigateToChangePassword(this)
+    Alert.alert(STRING.notice, STRING.featuresNotAvailable)
+  }
+
+  onNotificationCenterPress = () => {
+    Alert.alert(STRING.notice, STRING.featuresNotAvailable)
+  }
+
+  onFAQPress = () => {
+    Alert.alert(STRING.notice, STRING.featuresNotAvailable)
+  }
+
+  onSettingPress = () => {
+    Alert.alert(STRING.notice, STRING.featuresNotAvailable)
   }
 
   renderHeader() {
     const userInfo = this.state.userInfo
     if (userInfo == null) return
 
-    const ccount = this.state.cameraCount
-    const name = userInfo.name
-    const cameraCount = ccount + ' ' + (ccount > 1 ? STRING.cameras : STRING.camera)
+    // const ccount = this.state.cameraCount
+    // const name = userInfo.name
+    // const cameraCount = ccount + ' ' + (ccount > 1 ? STRING.cameras : STRING.camera)
     const avatarSource = userInfo.avatar ? { uri: userInfo.avatar } : require('../../res/images/avatar-default.png')
     return <View style={styles.headerContainer}>
       <Image style={styles.avatar} source={avatarSource} />
-      <Text style={styles.userName}>{name}</Text>
-      <Text style={styles.cameraCount}>{cameraCount}</Text>
+      <Text style={styles.userName}>{userInfo.firstName}</Text>
+      <Text style={styles.cameraCount}>{userInfo.email}</Text>
     </View>
   }
 
   renderBlock1() {
     return <View style={styles.blockContainer}>
       <Cell title={STRING.profileManagerment} icon={"ios-contact"} color={THEME.colorPrimary} onPress={this.onProfileManagermentPress}/>
-      <Cell title={STRING.notificationCenter} icon={"ios-mail"} color={"#f48541"}/>
+      <Cell title={STRING.notificationCenter} icon={"ios-mail"} color={"#f48541"} onPress={this.onNotificationCenterPress}/>
     </View>
   }
 
   renderBlock2() {
     return <View style={styles.blockContainer}>
-      <Cell title={STRING.feedback} icon={"ios-help-circle"} color={"#f44170"}/>
-      <Cell title={STRING.About} icon={"ios-information-circle"} color={"#a341f4"}/>
-      <Cell title={STRING.Settings} icon={"ios-settings"} color={"#41f4a9"}/>
+      <Cell title={STRING.feedback} icon={"ios-help-circle"} color={"#f44170"} onPress={this.onFAQPress} />
+      <Cell title={STRING.About} icon={"ios-information-circle"} color={"#a341f4"} />
+      <Cell title={STRING.Settings} icon={"ios-settings"} color={"#41f4a9"} onPress={this.onSettingPress} />
     </View>
   }
 
   renderBlock3() {
     return <View style={styles.blockContainer}>
-      <Cell title={STRING.logout} icon={"ios-power"} color={"#f44170"}/>
+      <Cell title={STRING.logout} icon={"ios-power"} color={"#f44170"} onPress={this.onRequestLogout}/>
     </View>
   }
 

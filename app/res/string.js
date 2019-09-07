@@ -38,5 +38,9 @@ export default string = {
   signUpAgreePolicyError: "Please check that you have agreed to our Term of Use and Privacy Policy",
   signUpError: "We wasn't able to sign up with your information, please check the inputs and try again",
   signUpSuccessTitle: "Confirmation email sent",
-  signUpSuccessMessage: "Please check your email and confirm your email address"
+  signUpSuccessMessage: "Please check your email and confirm your email address",
+  logout: "Logout",
+  logoutConfirm: "Are you sure to want to log out fron this account?",
+  notice: "Notice",
+  featuresNotAvailable: "The features you just requested is not yet available on this version!"
 }
