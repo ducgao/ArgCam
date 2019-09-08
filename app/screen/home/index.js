@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import { 
   StyleSheet,
   View,
-  Text,
+  Dimensions,
   FlatList,
   ActivityIndicator,
   Alert
 } from 'react-native'
+import Drawer from 'react-native-drawer-menu'
 import STRING from '../../res/string'
 import Header from './header'
 import CameraItem from './camera'
@@ -15,6 +16,7 @@ import CameraRepository from '../../repository/camera'
 import THEME from '../../res/theme'
 import { isIphoneX } from '../../utils'
 import Api from '../../api'
+import DrawerContent from './drawer'
 import { navigateToCamera, navigateToAddCameraScanQRCode } from '../../common/router'
 
 const PRESENT_ITEM_TYPE = {
@@ -27,6 +29,7 @@ export default class Home extends Component {
   static navigationOptions = { header: null }
 
   stackFolder = []
+  allData = null
 
   api = Api.instance()
   cameraRepository = CameraRepository.instance()
@@ -40,30 +43,47 @@ export default class Home extends Component {
   constructor(props) {
     super(props)
 
-    this.api.getFolder().then(res => {
+    this.api.getCameraList().then(res => {
       const presentList = res.elements.map(e => {
-        let type = PRESENT_ITEM_TYPE.FOLDER
-
-        if (e.camera === true) {
-          type = PRESENT_ITEM_TYPE.CAMERA
-        }
-        else if (e.file === true) {
-          type = PRESENT_ITEM_TYPE.FILE
-        }
-
-        const content = this.parseContent(e.files)
-
         return {
           id: e.id,
+          parentId: e.parentId,
+          url: e.cameraStreamUrl,
           name: e.name,
-          type,
-          content
+          type: PRESENT_ITEM_TYPE.CAMERA,
+          isOnline: e.online
         }
       })
 
       this.setState({ presentList })
-      this.stackFolder.push(presentList)
     })
+
+    // this.api.getFolder().then(res => {
+    //   const cameraList = []
+    //   const presentList = res.elements.map(e => {
+    //     let type = PRESENT_ITEM_TYPE.FOLDER
+
+    //     if (e.camera === true) {
+    //       type = PRESENT_ITEM_TYPE.CAMERA
+    //     }
+    //     else if (e.file === true) {
+    //       type = PRESENT_ITEM_TYPE.FILE
+    //     }
+
+    //     const parentId = e.parentId
+      
+    //     return {
+    //       id: e.id,
+    //       name: e.name,
+    //       parentId,
+    //       type
+    //     }
+    //   })
+    
+    //   this.allData = presentList
+    //   this.stackFolder.push(null)
+    //   this.setState({ presentList: this.getPresentList() })
+    // })
   }
 
   componentDidMount() {
@@ -76,6 +96,16 @@ export default class Home extends Component {
 
   camerasObserver = (cameras) => {
     this.setState({ cameraList: cameras })
+  }
+
+  getPresentList = () => {
+    const item = this.stackFolder[this.stackFolder.length - 1]
+    if (item == null) {
+      return this.allData.filter(i => i.parentId == undefined)
+    }
+    else {
+      return this.allData.filter(i => i.parentId == item.id)
+    }
   }
 
   requestOpenCamera = (item) => {
@@ -92,58 +122,36 @@ export default class Home extends Component {
 
   requestBack = () => {
     this.stackFolder.pop()
-    const item = this.stackFolder[this.stackFolder.length - 1]
 
-    if (Array.isArray(item)) {
+
+
+    if (item == null) {
       this.setState({ 
-        presentList: item, 
+        presentList: this.getPresentList(), 
         headerTitle: STRING.welcome,
         showBack: false
       })  
     }
     else {
       this.setState({ 
-        presentList: item.content, 
+        presentList: this.getPresentList(), 
         headerTitle: item.name,
         showBack: true 
       })
     }
   }
 
-  parseContent = (files) => {
-    if (Array.isArray(files)) {
-      return files.map(e => {
-        let type = PRESENT_ITEM_TYPE.FOLDER
-
-        if (e.camera === true) {
-          type = PRESENT_ITEM_TYPE.CAMERA
-        }
-        else if (e.file === true) {
-          type = PRESENT_ITEM_TYPE.FILE
-        }
-
-        const content = this.parseContent(e.files)
-
-        return {
-          id: e.id,
-          name: e.name,
-          type,
-          content,
-          url: type != PRESENT_ITEM_TYPE.FOLDER ? e.cameraStreamUrl : undefined
-        }
-      })
-    }
-
-    return [];
+  requestOpenDrawer = () => {
+    this.drawer.openDrawer()
   }
 
   onItemPress = (item) => {
+    this.stackFolder.push(item)
     this.setState({ 
-      presentList: item.content, 
+      presentList: this.getPresentList(), 
       headerTitle: item.name,
       showBack: true 
     })
-    this.stackFolder.push(item)
   } 
 
   renderCameraItem = ({item}) => {
@@ -164,6 +172,7 @@ export default class Home extends Component {
         style={styles.header} 
         onRequestAddCamera={this.requestAddCamera}
         onRequestBack={this.requestBack}
+        onRequestOpenDrawer={this.requestOpenDrawer}
         headerTitle={this.state.headerTitle}
         showBack={this.state.showBack}
       />
@@ -188,19 +197,29 @@ export default class Home extends Component {
         data={this.state.presentList} 
         renderItem={this.renderCameraItem}
         numColumns={2}
+        removeClippedSubviews={true}
       />
     }
   }
 
   render() {
+    const drawerContent = <DrawerContent data={this.allData} />
     return (
-      <View style={styles.container}>
+      <Drawer 
+        ref={r => this.drawer = r}
+        style={styles.container}
+        drawerContent={drawerContent}
+        drawerPosition={Drawer.positions.Left}
+        drawerWidth={DRAWER_WIDTH}
+      >
         {this.renderHeader()}
         {this.renderCameras()}
-      </View>
+      </Drawer>
     )
   }
 }
+
+const DRAWER_WIDTH = Dimensions.get('window').width / 1.5
 
 const styles = StyleSheet.create({
   container: {

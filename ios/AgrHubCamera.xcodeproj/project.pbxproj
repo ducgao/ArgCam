@@ -649,6 +649,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -1120,7 +1121,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = agrhub.camera;
+				PRODUCT_BUNDLE_IDENTIFIER = com.camhub.ai;
 				PRODUCT_NAME = AgrHubCamera;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1148,7 +1149,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = agrhub.camera;
+				PRODUCT_BUNDLE_IDENTIFIER = com.camhub.ai;
 				PRODUCT_NAME = AgrHubCamera;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

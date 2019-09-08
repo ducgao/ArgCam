@@ -38,7 +38,7 @@ export default class Base {
   call(method, url, body) {
     const headers = {
       'Content-Type': 'application/json',
-      'Company': 'demo',
+      'Company': 'hsg',
     }
 
     const getConfigs = { method, headers }
@@ -85,7 +85,7 @@ export default class Base {
 
     const headers = {
       'Content-Type': 'application/json',
-      'Company': 'demo',
+      'Company': 'hsg',
       'Authorization': `Basic ${step2}`
     }
 

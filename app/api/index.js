@@ -33,8 +33,13 @@ export default class Api extends Base {
   }
 
   getCameraList() {
-    const url = ENDPOINTS.CAMERA_LIST
-    return this.callGet(url)
+    const body = {
+      fileType: "camera",
+      limit: -1,
+      offet: 0
+    }
+    
+    return this.callPost(ENDPOINTS.GET_CAMERA, body)
   }
 
   getCameraStreamingUrl(id) {

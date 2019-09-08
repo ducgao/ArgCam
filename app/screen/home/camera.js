@@ -1,16 +1,32 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { 
   StyleSheet, 
   Text, 
-  Image,
+  ActivityIndicator,
   View,
   TouchableWithoutFeedback,
   TouchableOpacity,
   Dimensions
 } from 'react-native'
-import Ionicons from 'react-native-ionicons'
+import { RtmpView } from 'react-native-rtmpview'
+import theme from '../../res/theme'
+import MemHelper from './memhelper'
 
-export default class Header extends Component {
+export default class Header extends PureComponent {
+
+  state = {
+    isPlaying: false
+  }
+
+  memHelper = MemHelper.instance()
+
+  componentDidMount() {
+    const beginPlay = () => {
+      this.player.initialize()
+      this.player.play() 
+    }
+    this.memHelper.addOperation(beginPlay)
+  }
 
   onPress = () => {
     if (this.props.onPress) {
@@ -22,6 +38,12 @@ export default class Header extends Component {
     if (this.props.onSettingPress) {
       this.props.onSettingPress(this.props.data)
     }
+  }
+
+  onCameraPlaying = () => {
+    this.setState({ isPlaying: true })
+    this.player.stop()
+    this.memHelper.releaseOne()
   }
 
   renderHeader() {
@@ -37,16 +59,25 @@ export default class Header extends Component {
 
   renderThumbnail() {
     const data = this.props.data
-    const thumbnail = data.thumbnail
-    const imageSource = thumbnail ? { uri: thumbnail } : require('../../res/images/camera-default-thumb.png')
     return <TouchableWithoutFeedback style={styles.thumbnail} onPress={this.onPress}>
       <View style={styles.thumbnail}>
-        <Image 
-          style={[styles.thumbnail]}
-          source={imageSource}
-          resizeMode='cover'
-          resizeMethod='resize'
+        <RtmpView
+          style={styles.thumbnail}
+          shouldMute={false}
+          scalingMode={'MovieScalingModeAspectFit'}
+          onFirstVideoFrameRendered={this.onCameraPlaying}
+          ref={e => this.player = e}
+          url={data.url}
         />
+        {
+          this.state.isPlaying ? undefined : (
+            <ActivityIndicator style={{
+              position: 'absolute',
+              width: ITEM_WIDTH,
+              height: ITEM_WIDTH - 20
+            }} size='small' color='black' />
+          )
+        }
       </View>
     </TouchableWithoutFeedback>
   }
