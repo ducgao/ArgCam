@@ -1,8 +1,10 @@
 import React from 'react'
 import { Text, FlatList, View, Image, TouchableOpacity } from 'react-native'
 import { isIphoneX } from '../../utils'
+import theme from '../../res/theme'
+import Icon from 'react-native-ionicons'
 
-const DrawerItem = React.memo(({item, onPress, isSelected}) => {
+const DrawerItem = React.memo(({item, onPress, isSelected, level}) => {
 
   const onItemPress = () => {
     onPress(item)
@@ -13,11 +15,12 @@ const DrawerItem = React.memo(({item, onPress, isSelected}) => {
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: isSelected ? "red" : 'white'
+        marginLeft: level * 16
       }}
       onPress={onItemPress}
       activeOpacity={0.9}
     >
+      <Icon name={isSelected ? "md-remove-circle" : "md-add-circle"} size={12} color={theme.colorPrimary} style={{marginLeft: 8}} />
       <Image 
         style={{
           width: 24,
@@ -38,33 +41,87 @@ export default class DrawerContent extends React.PureComponent {
     selected: []
   }
 
-  onItemPress = (item) => {
-    const selected = this.state.selected
-    selected.push(item.id)
-
+  removeFromSelected(item) {
+    const selected = this.state.selected.slice()
+    let p = null
+    while (p != item.id) {
+      p = selected.pop()
+    }
+    
     this.setState({ selected: selected.slice() })
   }
 
-  renderItem = ({item}) => {
-    let isSelected = false;
-    this.state.selected.forEach(e => {
-      if (e.id == item.id) {
-        isSelected = true
-        return
+  onItemPress = (item) => {
+    const selected = this.state.selected
+
+    if (selected.indexOf(item.id) >= 0) {
+      this.removeFromSelected(item)
+    }
+    else {
+      const parent = item.parentId
+      if (parent) {
+        const selected = this.state.selected
+        let p = selected[selected.length - 1]
+        while (p != parent) {
+          selected.pop()
+          p = selected[selected.length - 1]
+        }  
+        selected.push(item.id)
+        this.setState({ selected: selected.slice() })
       }
+      else {
+        this.setState({ selected: [item.id] })  
+      }
+    }
+  }
+
+  renderItem = ({item}, level = 0) => {
+
+    const childLevel = level + 1
+    const child = this.state.selected.indexOf(item.id) >= 0 ? item.child.map(i => this.renderItem({item: i}, childLevel)) : undefined
+
+    return (
+      <View>
+        <DrawerItem item={item} onPress={this.onItemPress} isSelected={this.state.selected.indexOf(item.id) >= 0} level={level} />
+        {child}
+      </View>
+    )
+  }
+
+  getChild(item) {
+    const returnList = []
+    const parents = this.props.data.filter(i => i.parentId == item.id)
+
+    parents.forEach(i => {
+      returnList.push({
+        ...i,
+        child: this.getChild(i)
+      })
     })
 
-    return <DrawerItem item={item} onPress={this.onItemPress} isSelected={isSelected} />
+    return returnList
   }
 
   render() {
+    let presentList = []
+    if (Array.isArray(this.props.data)) {
+      const parents = this.props.data.filter(i => i.parentId == undefined)
+
+      parents.forEach(i => {
+        presentList.push({
+          ...i,
+          child: this.getChild(i)
+        })
+      })
+    }
+    
     return (
       <FlatList 
         style={{
           marginTop: 44 + (isIphoneX() ? 20 : 0)
         }}
         showsVerticalScrollIndicator={false}
-        data={this.props.data} 
+        data={presentList} 
         renderItem={this.renderItem}
         keyExtractor={(_, index) => 'drawer-item-' + index}
       />

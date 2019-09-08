@@ -28,7 +28,6 @@ const PRESENT_ITEM_TYPE = {
 export default class Home extends Component {
   static navigationOptions = { header: null }
 
-  stackFolder = []
   allData = null
 
   api = Api.instance()
@@ -58,32 +57,29 @@ export default class Home extends Component {
       this.setState({ presentList })
     })
 
-    // this.api.getFolder().then(res => {
-    //   const cameraList = []
-    //   const presentList = res.elements.map(e => {
-    //     let type = PRESENT_ITEM_TYPE.FOLDER
+    this.api.getFolder().then(res => {
+      const presentList = res.elements.map(e => {
+        let type = PRESENT_ITEM_TYPE.FOLDER
 
-    //     if (e.camera === true) {
-    //       type = PRESENT_ITEM_TYPE.CAMERA
-    //     }
-    //     else if (e.file === true) {
-    //       type = PRESENT_ITEM_TYPE.FILE
-    //     }
+        if (e.camera === true) {
+          type = PRESENT_ITEM_TYPE.CAMERA
+        }
+        else if (e.file === true) {
+          type = PRESENT_ITEM_TYPE.FILE
+        }
 
-    //     const parentId = e.parentId
+        const parentId = e.parentId
       
-    //     return {
-    //       id: e.id,
-    //       name: e.name,
-    //       parentId,
-    //       type
-    //     }
-    //   })
+        return {
+          id: e.id,
+          name: e.name,
+          parentId,
+          type
+        }
+      })
     
-    //   this.allData = presentList
-    //   this.stackFolder.push(null)
-    //   this.setState({ presentList: this.getPresentList() })
-    // })
+      this.allData = presentList
+    })
   }
 
   componentDidMount() {
@@ -98,16 +94,6 @@ export default class Home extends Component {
     this.setState({ cameraList: cameras })
   }
 
-  getPresentList = () => {
-    const item = this.stackFolder[this.stackFolder.length - 1]
-    if (item == null) {
-      return this.allData.filter(i => i.parentId == undefined)
-    }
-    else {
-      return this.allData.filter(i => i.parentId == item.id)
-    }
-  }
-
   requestOpenCamera = (item) => {
     navigateToCamera(this, item)
   }
@@ -120,45 +106,11 @@ export default class Home extends Component {
     navigateToAddCameraScanQRCode(this)
   }
 
-  requestBack = () => {
-    this.stackFolder.pop()
-
-
-
-    if (item == null) {
-      this.setState({ 
-        presentList: this.getPresentList(), 
-        headerTitle: STRING.welcome,
-        showBack: false
-      })  
-    }
-    else {
-      this.setState({ 
-        presentList: this.getPresentList(), 
-        headerTitle: item.name,
-        showBack: true 
-      })
-    }
-  }
-
   requestOpenDrawer = () => {
     this.drawer.openDrawer()
-  }
-
-  onItemPress = (item) => {
-    this.stackFolder.push(item)
-    this.setState({ 
-      presentList: this.getPresentList(), 
-      headerTitle: item.name,
-      showBack: true 
-    })
   } 
 
   renderCameraItem = ({item}) => {
-    if (item.type === PRESENT_ITEM_TYPE.FOLDER) {
-      return <FolderItem data={item} onPress={this.onItemPress}/>
-    }
-
     return <CameraItem 
       style={styles.cameraItem} 
       data={item}
