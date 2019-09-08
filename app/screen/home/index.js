@@ -18,6 +18,7 @@ import { isIphoneX } from '../../utils'
 import Api from '../../api'
 import DrawerContent from './drawer'
 import { navigateToCamera, navigateToAddCameraScanQRCode } from '../../common/router'
+import MemHelper from './memhelper'
 
 const PRESENT_ITEM_TYPE = {
   FOLDER: 1,
@@ -29,12 +30,14 @@ export default class Home extends Component {
   static navigationOptions = { header: null }
 
   allData = null
+  allCamera = null
 
   api = Api.instance()
   cameraRepository = CameraRepository.instance()
 
   state = {
     presentList: null,
+    selected: null,
     showBack: false,
     headerTitle: STRING.welcome
   }
@@ -54,7 +57,9 @@ export default class Home extends Component {
         }
       })
 
-      this.setState({ presentList })
+      this.allCamera = presentList
+
+      this.setState({ presentList: this.getPresentList() })
     })
 
     this.api.getFolder().then(res => {
@@ -90,6 +95,16 @@ export default class Home extends Component {
     this.cameraRepository.removeObserver(this.camerasObserver)
   }
 
+  getPresentList() {
+    MemHelper.instance().reset()
+    if (this.state.selected == null) {
+      return this.allCamera
+    }
+    else {
+      return this.allCamera.filter(i => i.parentId == this.state.selected)
+    }
+  }
+
   camerasObserver = (cameras) => {
     this.setState({ cameraList: cameras })
   }
@@ -109,6 +124,16 @@ export default class Home extends Component {
   requestOpenDrawer = () => {
     this.drawer.openDrawer()
   } 
+
+  onItemSelected = (item) => {
+    this.setState({
+      selected: item.id
+    }, () => {
+      this.setState({
+        presentList: this.getPresentList()
+      })
+    })
+  }
 
   renderCameraItem = ({item}) => {
     return <CameraItem 
@@ -155,7 +180,7 @@ export default class Home extends Component {
   }
 
   render() {
-    const drawerContent = <DrawerContent data={this.allData} />
+    const drawerContent = <DrawerContent data={this.allData} onItemSelected={this.onItemSelected}/>
     return (
       <Drawer 
         ref={r => this.drawer = r}

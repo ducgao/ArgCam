@@ -73,6 +73,10 @@ export default class DrawerContent extends React.PureComponent {
         this.setState({ selected: [item.id] })  
       }
     }
+
+    if (this.props.onItemSelected) {
+      this.props.onItemSelected(item)
+    }
   }
 
   renderItem = ({item}, level = 0) => {

@@ -27,4 +27,9 @@ export default class MemHelper {
       o()
     }
   }
+
+  reset() {
+    this._isRunning = false
+    this._queue = []
+  }
 }
