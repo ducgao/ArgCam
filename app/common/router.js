@@ -31,7 +31,7 @@ export function navigateToRegister(screenInstance) {
 }
 
 export function navigateToCamera(screenInstance, cameraInfo) {
-  screenInstance.props.navigation.navigate(CAMERA, { info: cameraInfo })
+  screenInstance.props.navigation.navigate(CAMERA, { info: cameraInfo, title: cameraInfo.name })
 }
 
 export function navigateToQRCodeScanner(screenInstance, callback) {

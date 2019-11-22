@@ -9,7 +9,7 @@ import { TabView, TabBar, SceneMap } from 'react-native-tab-view'
 import Ionicons from 'react-native-ionicons'
 import THEME from '../../res/theme'
 import Home from '../home'
-import Cloud from '../cloud'
+// import Cloud from '../cloud'
 import Profile from '../profile'
 import { isIphoneX } from '../../utils'
 import theme from '../../res/theme';
@@ -19,26 +19,26 @@ export default class Main extends Component {
 
   icons = [
     'ios-videocam',
-    'ios-cloud',
+    // 'ios-cloud',
     'ios-person'
   ]
 
   titles = [
     'Home',
-    'Cloud',
+    // 'Cloud',
     'Profile'
   ]
 
   homeRef = null
-  cloudRef = null
+  // cloudRef = null
   profileRef = null
 
   state = {
     index: 0,
     routes: [
       { index: 0, key: 'home', title: 'Home' },
-      { index: 1, key: 'cloud', title: 'Cloud' },
-      { index: 2, key: 'profile', title: 'Profile' }
+      // { index: 1, key: 'cloud', title: 'Cloud' },
+      { index: 1, key: 'profile', title: 'Profile' }
     ]
   }
 
@@ -46,7 +46,7 @@ export default class Main extends Component {
     super(props)
 
     this.homeInstance = () => <Home ref={ref => this.homeRef = ref} navigation={this.props.navigation} />
-    this.cloudInstance = () => <Cloud ref={ref => this.cloudRef = ref} navigation={this.props.navigation} />
+    // this.cloudInstance = () => <Cloud ref={ref => this.cloudRef = ref} navigation={this.props.navigation} />
     this.profileInstance = () => <Profile ref={ref => this.profileRef = ref} navigation={this.props.navigation} />
   }
 
@@ -102,7 +102,7 @@ export default class Main extends Component {
         }}
       renderScene={SceneMap({
         home: this.homeInstance,
-        cloud: this.cloudInstance,
+        // cloud: this.cloudInstance,
         profile: this.profileInstance
       })}
     />

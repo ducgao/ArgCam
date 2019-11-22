@@ -53,11 +53,11 @@ export default class Authentication extends Component {
     this.api.login(email, password).then(res => {
       this.setState({ loading: false })
 
-      const token = res.access_token
+      const token = res.elements[0].access_token
       if (token) {
         this.api.setAccessToken(token)
         this.api.setUserCredentialInfo(email, password)
-        this.userRepository.setUserInfo(res)
+        this.userRepository.setUserInfo(res.elements[0])
         replaceToMain(this)
       }
       else {
