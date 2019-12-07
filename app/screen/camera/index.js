@@ -71,6 +71,7 @@ export default class Camera extends Component {
     this.setState({
       playerState: 'playing',
     });
+    this.player.stop();
   };
 
   componentWillUnmount() {

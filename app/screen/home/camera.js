@@ -5,27 +5,15 @@ import {
   Text,
   ActivityIndicator,
   View,
+  Image,
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import {NodePlayerView} from 'react-native-nodemediaclient';
-// import {RtmpView} from 'react-native-rtmpview';
-import MemHelper from './memhelper';
 
 export default class Header extends PureComponent {
   state = {
     isPlaying: false,
   };
-
-  memHelper = MemHelper.instance();
-
-  componentDidMount() {
-    const beginPlay = () => {
-      // this.player.initialize();
-      this.player.start();
-    };
-    this.memHelper.addOperation(beginPlay);
-  }
 
   onPress = () => {
     if (this.props.onPress) {
@@ -37,12 +25,6 @@ export default class Header extends PureComponent {
     if (this.props.onSettingPress) {
       this.props.onSettingPress(this.props.data);
     }
-  };
-
-  onCameraPlaying = () => {
-    this.setState({isPlaying: true});
-    this.player.stop();
-    this.memHelper.releaseOne();
   };
 
   renderHeader() {
@@ -64,19 +46,14 @@ export default class Header extends PureComponent {
     const data = this.props.data;
     return (
       <View style={styles.thumbnail}>
-        <NodePlayerView
+        <Image
           style={styles.thumbnail}
-          inputUrl={data.url}
-          scaleMode={'ScaleAspectFit'}
-          bufferTime={300}
-          maxBufferTime={1000}
-          autoplay={false}
-          ref={e => (this.player = e)}
-          onStatus={(_, m) => {
-            if (m === 'NetStream.Buffer.Full') {
-              this.onCameraPlaying();
-            }
+          source={{
+            uri:
+              'http://35.201.147.141:8000/thumb?width=500&height=500&url=' +
+              encodeURI(data.url),
           }}
+          onLoadEnd={() => this.setState({isPlaying: true})}
         />
         {this.state.isPlaying ? (
           undefined
